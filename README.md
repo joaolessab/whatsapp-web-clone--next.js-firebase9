@@ -1,6 +1,6 @@
 <div align="center">
   <h1 align='center'>Whats App clone<br/>
-  { Next.js + Firebase 9 }</h1>
+  { Next.js + Firebase 9 + Styled Components}</h1>
   
   > 💬 A Whats App clone made using Next.js and Firebase version 9
   
@@ -68,6 +68,14 @@ $ npx create-next-app@latest --use-npm
 ```bash
 $ npm run dev
 ```
+
+## • Step 2 - Adding CSS library
+
+```bash
+$ npm i styled-components
+```
+
+## • Step 3 - Clean the boilerplate inside "index.js"
 
 # 📚 References
 
