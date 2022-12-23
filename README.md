@@ -30,7 +30,7 @@
 1. In the **root** folder, run this command to generate the `.env` file:
 
 ```
-cp .env.example .env
+cp .env.example app/.env
 ```
 
 2. Set the sensitive variables of your project inside the generated `.env` file;
