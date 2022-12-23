@@ -1,6 +1,5 @@
 {
   "name": "app",
-  "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -9,9 +8,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@next/font": "13.1.0",
     "next": "13.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "eslint": "8.30.0",
+    "eslint-config-next": "13.1.0"
   }
 }
