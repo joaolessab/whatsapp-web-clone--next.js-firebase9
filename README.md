@@ -1,11 +1,11 @@
 <div align="center">
-  <h1 align='center'>Auth w/ Routing Protection<br/>
-  { Next.js + Firebase 8 }</h1>
+  <h1 align='center'>Whats App clone<br/>
+  { Next.js + Firebase 9 }</h1>
   
-  > 💡 A Next.js app model that has an authentication system integrated with Firebase, and it's able to protect routes
+  > 💬 A Whats App clone made using Next.js and Firebase version 9
   
   <br/>
-  <a href="#-repository-menu">Repository Menu</a><br/
+  <a href="#-repository-menu">Repository Menu</a><br/>
   
   <br/><br/>
   Made with ❤️ by João Vitor Lessa 👏🏻 
