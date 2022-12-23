@@ -27,7 +27,7 @@
 
 ## • Dev mode
 
-1. In the **root** folder, run this command to generate the `.env` file:
+1. In the `root` folder, run this command to generate the `.env` file:
 
 ```
 cp .env.example app/.env
