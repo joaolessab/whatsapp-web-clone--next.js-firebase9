@@ -75,7 +75,33 @@ $ npm run dev
 $ npm i styled-components
 ```
 
-## • Step 3 - Clean the boilerplate inside "index.js"
+## • Step 3 - Clean the boilerplate inside "index.js";
+
+## • Step 4 - Adding Background Color:
+
+- On the file `./styles/global.css`:
+
+```bash
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  background: rgb(0, 150, 136);
+  background: linear-gradient(180deg, rgba(0, 150, 136, 1) 0%, rgba(0, 150, 136, 1) 15%,
+  rgba(215, 219, 214, 1) 15%, rgba(215, 219, 214, 1) 130%);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+```
 
 # 📚 References
 
