@@ -33,21 +33,23 @@
 cp .env.example app/.env
 ```
 
-2. Set the sensitive variables of your project inside the generated `.env` file;
+2. Enter the `app` folder;
 
-3. Install dependencies:
+3. Set the sensitive variables of your project inside the generated `.env` file;
+
+4. Install dependencies:
 
 ```bash
 $ npm i
 ```
 
-4. Run the app:
+5. Run the app:
 
 ```bash
 $ npm run dev
 ```
 
-5. Access the URL: http://localhost:3000
+6. Access the URL: http://localhost:3000
 
 # 🔨 Creating this project from scratch: Baby Steps]
 
