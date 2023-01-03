@@ -104,7 +104,7 @@ a {
 }
 ```
 
-## • Step 5 - Adding main Layout:
+## • Step 5 - Adding mainLayout:
 
 - Create the file `./components/Sidebar.jsx`:
 
@@ -218,6 +218,29 @@ function MyApp({ Component, pageProps }) {
 
 export default MyApp
 
+```
+
+## • Step 6 - Making Async changes using Styled Components
+
+1. To improve the development experience, install the package:
+
+```bash
+$ npm i babel-plugin-styled-components
+```
+
+2. Create the file `./babelrc`:
+
+```bash
+{
+    "presets": ["next/babel"],
+    "plugins": ["babel-plugin-styled-components"]
+}
+```
+
+3. Delete the `./next`folder and run again:
+
+```bash
+npm run dev
 ```
 
 # 📚 References
