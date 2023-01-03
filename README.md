@@ -86,6 +86,7 @@ html,
 body {
   padding: 0;
   margin: 0;
+  height: 100vh;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   background: rgb(0, 150, 136);
@@ -104,5 +105,6 @@ a {
 ```
 
 # 📚 References
+
 - 🎥 # [NextJS Firebase Auth Crash Course](https://www.youtube.com/watch?v=qBGAdenirbs)
 - 📖 # [Test1](https://google.com)
