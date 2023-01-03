@@ -1,6 +1,6 @@
 <div align="center">
   <h1 align='center'>Whats App clone<br/>
-  { Next.js 12 + Firebase 9 + Styled Components}</h1>
+  { Next.js + Firebase 9 + Styled Components}</h1>
   
   > 💬 A Whats App clone made using Next.js 12 and Firebase 9s
   
