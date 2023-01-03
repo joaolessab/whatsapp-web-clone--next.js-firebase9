@@ -104,6 +104,5 @@ a {
 ```
 
 # 📚 References
-
-- 🎥 >> [NextJS Firebase Auth Crash Course](https://www.youtube.com/watch?v=qBGAdenirbs)
-- 📖 >> [Test1](https://google.com)
+- 🎥 # [NextJS Firebase Auth Crash Course](https://www.youtube.com/watch?v=qBGAdenirbs)
+- 📖 # [Test1](https://google.com)
