@@ -1,11 +1,20 @@
 import styled from 'styled-components'
-import { Avatar } from '@mui/material'
+import { Avatar, IconButton } from '@mui/material'
+import ChatIcon from '@mui/icons-material/Chat'
 
 const Sidebar = () => { 
     return (
         <Container>
             <Header>
-                <UserAvatar src="/avatar.png"/>
+                <UserAvatar src="/avatar.png" />
+                <IconsGroup>
+                    <IconButton>
+                        <img src="/story.svg" alt="" />
+                    </IconButton>
+                    <IconButton>
+                        <ChatIcon />
+                    </IconButton>
+                </IconsGroup>
             </Header>
         </Container>
     )
@@ -39,3 +48,5 @@ const UserAvatar = styled(Avatar)`
         opacity: 0.8;
     }
 `
+
+const IconsGroup = styled.div``
