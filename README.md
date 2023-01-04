@@ -403,6 +403,128 @@ const UserAvatar = styled(Avatar)`
 const IconsGroup = styled.div``
 ```
 
+## • Step 10 - Add Dropdown Menu to the Sidebar
+
+1. I've used this reference to create the Dropdown: [Material UI Docs: Menu](https://mui.com/material-ui/react-menu/);
+
+2. Create the file `CustomMoreVertical.jsx`:
+
+```bash
+import * as React from 'react'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import { IconButton } from '@mui/material'
+
+export default function BasicMenu() {
+  const [anchorEl, setAnchorEl] = React.useState(null)
+
+  const open = Boolean(anchorEl)
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  }
+
+  return (
+    <>
+      <IconButton
+        onClick={handleClick}
+      >
+        <MoreVertIcon />
+      </IconButton>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right'
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right'
+        }}
+      >
+        <MenuItem onClick={handleClose}>New Group</MenuItem>
+        <MenuItem onClick={handleClose}>Create a room</MenuItem>
+        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem onClick={handleClose}>Archived</MenuItem>
+        <MenuItem onClick={handleClose}>Starred</MenuItem>
+        <MenuItem onClick={handleClose}>Settings</MenuItem>
+        <MenuItem onClick={handleClose}>Logout</MenuItem>
+      </Menu>
+    </>
+  )
+}
+```
+
+3. Call the new component in the file `./components/Sidebar.jsx`:
+
+```bash
+import styled from 'styled-components'
+import { Avatar, IconButton } from '@mui/material'
+import ChatIcon from '@mui/icons-material/Chat'
+import CustomMoreVertical from './CustomMoreVertical'
+
+const Sidebar = () => {
+    return (
+        <Container>
+            <Header>
+                <UserAvatar src="/avatar.png" />
+                <IconsGroup>
+                    <IconButton>
+                        <img src="/story.svg" alt="" />
+                    </IconButton>
+                    <IconButton>
+                        <ChatIcon />
+                    </IconButton>
+                    <CustomMoreVertical />
+                </IconsGroup>
+            </Header>
+        </Container>
+    )
+}
+
+export default Sidebar
+
+const Container = styled.div`
+    background-color: #FFFFFF;
+    min-width: 320px;
+    max-width: 450px;
+    height: 100%;
+`
+
+const Header = styled.div`
+    display: flex;
+    position: sticky;
+    top: 0;
+    background-color: white;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    height: 80px;
+    border-bottom: 1px solid whitesmoke;
+    width: 100%;
+`
+
+const UserAvatar = styled(Avatar)`
+    cursor: pointer;
+    :hover{
+        opacity: 0.8;
+    }
+`
+
+const IconsGroup = styled.div``
+```
+
 # 📚 References
 
 - 🎥 # [NextJS Firebase Auth Crash Course](https://www.youtube.com/watch?v=qBGAdenirbs)
