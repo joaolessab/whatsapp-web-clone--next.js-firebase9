@@ -20,7 +20,6 @@
 <p>
   •  <a href="#%EF%B8%8F-running-the-project">Running the Project</a><br/>
   •  <a href="#-creating-this-project-from-scratch-baby-steps">Creating this project from scratch: Baby Steps</a><br/>
-  •  <a href="#-references">References</a><br/>
 </p>
 
 # ⚙️ Running the Project
@@ -730,13 +729,4 @@ const NotificationText = styled.div`
     display: flex;
     flex-direction: column;
 `
-```
-
-# 📚 References
-
-- 🎥 # [NextJS Firebase Auth Crash Course](https://www.youtube.com/watch?v=qBGAdenirbs)
-- 📖 # [Test1](https://google.com)
-
-```
-
 ```
