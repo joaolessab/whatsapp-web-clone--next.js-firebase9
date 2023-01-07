@@ -730,3 +730,232 @@ const NotificationText = styled.div`
     flex-direction: column;
 `
 ```
+
+## • Step 13 - Create Chat Item at the Sidebar
+
+1. Grab the images located in `./public/user1.png` and `./public/user2.png` + insert them into the project;
+
+2. Create a Dummy Data Files for Chats with some fake chats on `./data/chats.json`:
+
+```bash
+[
+    {
+        "messageId": 1,
+        "timestamp": {
+            "seconds": 1633358405,
+            "nanoseconds": 7770000000
+        },
+        "users": [
+            "travis@gmail.com",
+            "joao@gmail.com"
+        ],
+        "photoURL": "./user1.png",
+        "name": "Travis",
+        "latestMessage": "Let's go bro!!!"
+    },
+    {
+        "messageId": 1,
+        "timestamp": {
+            "seconds": 1633358405,
+            "nanoseconds": 7770000000
+        },
+        "users": [
+            "liluzi@gmail.com",
+            "webster@gmail.com"
+        ],
+        "photoURL": "./user2.png",
+        "name": "Lil Uzi",
+        "latestMessage": "Finishing the beat to you!"
+    }
+]
+```
+
+3. Add the Moment library as a project dependency:
+
+```bash
+$ npm i moment
+```
+
+4. Create the file `./components/Chat.jsx`:
+
+```bash
+import { Avatar } from '@mui/material'
+import styled from 'styled-components'
+import moment from 'moment'
+
+const Chat = ({ photoURL, name, timestamp, latestMessage }) => {
+    return (
+        <Container>
+            <FrdAvatar src={photoURL} />
+            <ChatContainer>
+                <div style={{gridArea: 'name'}}>{ name }</div>
+                <div style={{gridArea: 'latest_message'}}>{ latestMessage }</div>
+                <div style={{ gridArea: 'time', fontSize: '14px' }}>
+                    {moment(timestamp.seconds * 1000).format('LT')}
+                </div>
+            </ChatContainer>
+        </Container>
+    )
+}
+
+export default Chat
+
+const Container = styled.div`
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    min-height: 67px;
+    padding-left: 15px;
+    word-break: break-word;
+    :hover{
+        background-color: #F5F5F5;
+    }
+`
+
+const FrdAvatar = styled(Avatar)`
+    margin: 5px;
+    margin-right: 15px;
+`
+
+const ChatContainer = styled.div`
+    display: grid;
+    padding: 10px;
+    width: 100%;
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: 1px solid #ededed;
+    gap: 10px;
+    grid-template-areas:
+    "name name time"
+    "latest_message latest_message."
+`
+```
+
+5. Edit the file `./components/Sidebar.jsx`, so it can call the new Chat component:
+
+```bash
+import styled from 'styled-components'
+import { Avatar, IconButton } from '@mui/material'
+import ChatIcon from '@mui/icons-material/Chat'
+import CustomMoreVertical from './CustomMoreVertical'
+import SearchIcon from '@mui/icons-material/Search'
+import NotificationsOffIcon from '@mui/icons-material/NotificationsOff'
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
+import Chat from './Chat'
+import chats from '../data/chats.json'
+
+const Sidebar = () => {
+    return (
+        <Container>
+            <Header>
+                <UserAvatar src="/avatar.png" />
+                <IconsGroup>
+                    <IconButton>
+                        <img src="/story.svg" alt="" />
+                    </IconButton>
+                    <IconButton>
+                        <ChatIcon />
+                    </IconButton>
+                    <CustomMoreVertical />
+                </IconsGroup>
+            </Header>
+            <Notification>
+                <NotificationAvatar>
+                    <NotificationsOffIcon style={{ color: '#9DE1FE' }} />
+                </NotificationAvatar>
+                <NotificationText>
+                    <div>Get Notification of New Messages</div>
+                    <div style={{ display: 'flex', alignItems: 'center'}}>
+                        <a href="#"><u>Turn on Desktop notifications</u></a>
+                        <IconButton>
+                            <ArrowForwardIosIcon style={{width: 15, height: 15}} />
+                        </IconButton>
+                    </div>
+                </NotificationText>
+            </Notification>
+            <SearchChat>
+                <SearchBar>
+                    <SearchIcon />
+                    <SearchInput />
+                </SearchBar>
+            </SearchChat>
+            {chats.map(chat => (
+                <Chat
+                    key={chat.messageId}
+                    latestMessage={chat.latestMessage}
+                    name={chat.name}
+                    timestamp={chat.timestamp}
+                    photoURL={chat.photoURL}
+                >
+                    {chat.latestMessage}
+                </Chat>))}
+        </Container>
+    )
+}
+
+export default Sidebar
+
+const Container = styled.div`
+    background-color: #FFFFFF;
+    min-width: 320px;
+    max-width: 450px;
+    height: 100%;
+`
+
+const Header = styled.div`
+    display: flex;
+    position: sticky;
+    top: 0;
+    background-color: white;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    height: 80px;
+    border-bottom: 1px solid whitesmoke;
+    width: 100%;
+`
+
+const UserAvatar = styled(Avatar)`
+    cursor: pointer;
+    :hover{
+        opacity: 0.8;
+    }
+`
+
+const IconsGroup = styled.div``
+
+const SearchChat = styled.div`
+    background-color: #f6f6f6;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 20px;
+`
+
+const SearchBar = styled.div`
+    display: flex;
+    padding: 5px;
+    border-radius: 10px;
+    border-bottom: 1px solid #ededed;
+    background: white;
+`
+
+const SearchInput = styled.input`
+    width: 100%;
+    border: none;
+`
+
+const Notification = styled.div`
+    display: flex;
+    justify-content: space-around;
+    aling-items: center;
+    padding: 10px;
+    background-color: #9DE1FE;
+`
+
+const NotificationAvatar = styled(Avatar)`
+    background-color: white;
+`
+
+const NotificationText = styled.div`
+    display: flex;
+    flex-direction: column;
+`
+```
