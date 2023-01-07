@@ -1,10 +1,16 @@
 import { Avatar } from '@mui/material'
 import styled from 'styled-components'
 import moment from 'moment'
+import { useRouter } from 'next/router'
 
-const Chat = ({ photoURL, name, timestamp, latestMessage }) => { 
+const Chat = ({ photoURL, name, timestamp, latestMessage }) => {
+    const router = useRouter()
+    const enterChat = () => { 
+        router.push('/chat/1') // random for now only
+    }
+
     return (
-        <Container>
+        <Container onClick={enterChat}>
             <FrdAvatar src={photoURL} />
             <ChatContainer>
                 <div style={{gridArea: 'name'}}>{ name }</div>
