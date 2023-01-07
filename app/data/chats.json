@@ -1,0 +1,30 @@
+[
+    {
+        "messageId": 1,
+        "timestamp": {
+            "seconds": 1633358405,
+            "nanoseconds": 7770000000
+        },
+        "users": [
+            "travis@gmail.com",
+            "joao@gmail.com"
+        ],
+        "photoURL": "./user1.png",
+        "name": "Travis",
+        "latestMessage": "Let's go bro!!!"
+    },
+    {
+        "messageId": 1,
+        "timestamp": {
+            "seconds": 1633358405,
+            "nanoseconds": 7770000000
+        },
+        "users": [
+            "liluzi@gmail.com",
+            "webster@gmail.com"
+        ],
+        "photoURL": "./user2.png",
+        "name": "Lil Uzi",
+        "latestMessage": "Finishing the beat to you!"
+    }
+]

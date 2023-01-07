@@ -5,8 +5,10 @@ import CustomMoreVertical from './CustomMoreVertical'
 import SearchIcon from '@mui/icons-material/Search'
 import NotificationsOffIcon from '@mui/icons-material/NotificationsOff'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
+import Chat from './Chat'
+import chats from '../data/chats.json'
 
-const Sidebar = () => { 
+const Sidebar = () => {
     return (
         <Container>
             <Header>
@@ -41,6 +43,16 @@ const Sidebar = () => {
                     <SearchInput />
                 </SearchBar>
             </SearchChat>
+            {chats.map(chat => (
+                <Chat
+                    key={chat.messageId}
+                    latestMessage={chat.latestMessage}
+                    name={chat.name}
+                    timestamp={chat.timestamp}
+                    photoURL={chat.photoURL}
+                >
+                    {chat.latestMessage}
+                </Chat>))}
         </Container>
     )
 }
