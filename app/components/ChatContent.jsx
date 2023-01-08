@@ -5,6 +5,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import MicIcon from '@mui/icons-material/Mic'
+import messages from '../data/messages.json'
+import Messages from '../components/Messages'
 
 const ChatContent = () => { 
     return (
@@ -22,6 +24,18 @@ const ChatContent = () => {
                     <MoreVertIcon />
                 </IconButton>
             </Header>
+
+            <MessagesContainer>
+                {messages.map(message =>
+                    <Messages
+                        key={message.id}
+                        user={message.user}
+                        message={message.message}
+                        timestamp={message.timestamp}
+                    />
+                )}
+            </MessagesContainer>
+
             <InputContainer>
                 <IconButton>
                     <InsertEmoticonIcon />
@@ -44,6 +58,7 @@ export default ChatContent
 const Container = styled.div`
     display: flex;
     flex-direction: column;
+    height: 100%;
 `;
 
 const Header = styled.div`
@@ -90,4 +105,13 @@ const Input = styled.input`
     padding: 20px;
     margin-left: 15px;
     margin-right: 15px;
+`
+
+const MessagesContainer = styled.div`
+    padding: 20px;
+    background-color: #e5ded8;
+    flex: 1;
+    background-image: url('/chat-background.png');
+    background-attachment: fixed;
+    background-repeat: repeat;
 `

@@ -765,7 +765,7 @@ const NotificationText = styled.div`
         ],
         "photoURL": "./user2.png",
         "name": "Lil Uzi",
-        "latestMessage": "Finishing the beat to you!"
+        "latestMessage": "Finishing the beat for ya!"
     }
 ]
 ```
