@@ -1609,7 +1609,8 @@ const LoginContainer = styled.div`
 ```
 
 3. Edit the file `./pages/login.js`:
-   > We are only returning the Login page for now and hiding the other ones to view it, before setting and installing the Database
+
+> We are only returning the Login page for now and hiding the other ones to view it, before setting and installing the Database
 
 ```bash
 import Layout from '../components/Layout'
