@@ -1243,3 +1243,229 @@ const Input = styled.input`
     margin-right: 15px;
 `
 ```
+
+## • Step 17 - Finish ChatBox page with Message Bubbles + Background
+
+1. Grab the images located in `./public/chat-background.png`, `./public/tail-frd-background.png` and `./public/tail-my-message.png` and insert them in the project;
+
+2. Create a Dummy file for Messages at `./data/messages.json`:
+
+```bash
+[
+    {
+        "id": "2190382109e9e1",
+        "message": "Hey dude",
+        "user": "travis@gmail.com",
+        "photoURL": "./user1",
+        "timestamp": 1633358324512
+    },
+    {
+        "id": "2190382109e9e0",
+        "message": "Sup, Trav!",
+        "user": "joao@gmail.com",
+        "photoURL": "./user1",
+        "timestamp": 1633358324512
+    },
+    {
+        "id": "2190382109e9e2",
+        "message": "Let's go bro!",
+        "user": "travis@gmail.com",
+        "photoURL": "./user1",
+        "timestamp": 1633358324512
+    }
+]
+```
+
+3. Create the Message file component at: `./components/Messages.jsx`:
+
+```bash
+import styled from 'styled-components'
+import moment from 'moment'
+
+const Messages = ({ user, message, timestamp }) => {
+    const loginMail = 'joao@gmail.com'
+    const MessageType = user === loginMail ? MyMessage : FrdMessage
+
+    return (
+        <Container>
+            {user !== loginMail && <MessageTail>
+                <img src='/tail-my-message.svg' alt=''></img>
+            </MessageTail>}
+
+            <MessageType>
+                {message}
+                <Timestamp>{moment(timestamp).format('LT')}</Timestamp>
+            </MessageType>
+
+            {user === loginMail && <MessageTail>
+                <img src='/tail-frd-message.svg' alt=''></img>
+            </MessageTail>}
+        </Container>
+    )
+}
+
+export default Messages
+
+const Container = styled.div`
+    display: flex;
+`
+
+const MessageBubble = styled.div`
+    padding: 15px;
+    padding-bottom: 26px;
+    text-align: right;
+    background-color: white;
+    margin-bottom: 10px;
+    position: relative;
+`
+
+const MyMessage = styled(MessageBubble)`
+    margin-left: auto;
+    background-color: #dcf8c6;
+    border-radius: 8px 8px 8px 8px;
+`
+
+const FrdMessage = styled(MessageBubble)`
+    background-color: white;
+    text-align: left;
+    border-radius: 8px 8px 8px 8px;
+`
+
+const MessageTail = styled.span`
+    margin-top: 3px;
+    margin-right: -1.5px
+`
+
+const Timestamp = styled.span`
+    color: gray;
+    padding: 10px;
+    font-size: 9px;
+    position: absolute;
+    bottom: 0;
+    text-align: right;
+    right: 0;
+`
+```
+
+4. Edit the file: `./components/ChatContent.jsx`:
+
+```bash
+import styled from 'styled-components'
+import { Avatar, IconButton } from '@mui/material'
+import styled from 'styled-components'
+import SearchIcon from '@mui/icons-material/Search'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon'
+import AttachFileIcon from '@mui/icons-material/AttachFile'
+import MicIcon from '@mui/icons-material/Mic'
+import messages from '../data/messages.json'
+import Messages from '../components/Messages'
+
+const ChatContent = () => {
+    return (
+        <Container>
+            <Header>
+                <Avatar />
+                <HeaderInfo>
+                    <h3>Travis</h3>
+                    <div>Last Active: 3 hours ago</div>
+                </HeaderInfo>
+                <IconButton>
+                    <SearchIcon />
+                </IconButton>
+                <IconButton>
+                    <MoreVertIcon />
+                </IconButton>
+            </Header>
+
+            <MessagesContainer>
+                {messages.map(message =>
+                    <Messages
+                        key={message.id}
+                        user={message.user}
+                        message={message.message}
+                        timestamp={message.timestamp}
+                    />
+                )}
+            </MessagesContainer>
+
+            <InputContainer>
+                <IconButton>
+                    <InsertEmoticonIcon />
+                </IconButton>
+                <IconButton>
+                    <AttachFileIcon />
+                </IconButton>
+                <Input placeholder='Type a message' />
+                <IconButton>
+                    <MicIcon />
+                </IconButton>
+            </InputContainer>
+        </Container>
+    )
+
+}
+
+export default ChatContent
+
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+`;
+
+const Header = styled.div`
+    position: sticky;
+    background-color: white;
+    z-index: 100;
+    top: 0;
+    display: flex;
+    padding: 11px;
+    height: 80px;
+    align-items: center;
+    border-bottom: 1px solid whitesmoke;
+`
+
+const HeaderInfo = styled.div`
+    margin-left: 15px;
+    flex: 1;
+
+    >h3{
+        margin-bottom: 3px;
+    }
+
+    >div{
+        font-size: 14px;
+        color: gray;
+    }
+`
+
+const InputContainer = styled.form`
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    position: sticky;
+    bottom: 0;
+    background-color: #f0f0f0;
+    z-index: 100;
+`
+
+const Input = styled.input`
+    flex: 1;
+    outline: 0;
+    border: none;
+    border-radius: 30px;
+    padding: 20px;
+    margin-left: 15px;
+    margin-right: 15px;
+`
+
+const MessagesContainer = styled.div`
+    padding: 20px;
+    background-color: #e5ded8;
+    flex: 1;
+    background-image: url('/chat-background.png');
+    background-attachment: fixed;
+    background-repeat: repeat;
+`
+```

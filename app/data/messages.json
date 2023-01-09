@@ -1,22 +1,22 @@
 [   
     {
         "id": "2190382109e9e1",
-        "message": "Hello, Trae",
-        "user": "scot@gmail.com",
+        "message": "Hey dude",
+        "user": "travis@gmail.com",
         "photoURL": "./user1",
         "timestamp": 1633358324512
     },
     {
         "id": "2190382109e9e0",
-        "message": "Hello, Joao",
+        "message": "Sup, Trav!",
         "user": "joao@gmail.com",
         "photoURL": "./user1",
         "timestamp": 1633358324512
     },
     {
         "id": "2190382109e9e2",
-        "message": "Hello, Doc",
-        "user": "liluzi@gmail.com",
+        "message": "Let's go bro!",
+        "user": "travis@gmail.com",
         "photoURL": "./user1",
         "timestamp": 1633358324512
     }
