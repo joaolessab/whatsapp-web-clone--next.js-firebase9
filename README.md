@@ -1556,3 +1556,75 @@ const ChatContainer = styled.div`
     scrollbar-width: none;
 `
 ```
+
+## • Step 19 - Create Login Static Page
+
+1. Grab the image located in `./public/whatsapp-logo.svg` and insert into the project;
+
+2. Create the file `./pages/login.js`:
+
+```bash
+import styled from 'styled-components'
+import { Button } from '@mui/material'
+import GoogleIcon from '@mui/icons-material/Google'
+
+const Login = () => {
+    return (
+        <Container>
+            <LoginContainer>
+                <img
+                    src='/whatsapp-logo.svg'
+                    alt=''
+                    width={60}
+                    height={60}
+                />
+                <Button
+                    style={{ color: 'gray' }}
+                    startIcon={<GoogleIcon />}
+                >
+                    Login with Google
+                </Button>
+            </LoginContainer>
+        </Container>
+    )
+}
+
+export default Login
+
+const Container = styled.div`
+    display: grid;
+    place-items: center;
+    height: 100vh;
+    background-color: rgb(0, 150, 136);
+    width: 100vw;
+`
+
+const LoginContainer = styled.div`
+    padding: 30px;
+    display: flex;
+    gap: 20px;
+    background-color: white;
+    border-radius: 15px;
+`
+```
+
+3. Edit the file `./pages/login.js`:
+   > We are only returning the Login page for now and hiding the other ones to view it, before setting and installing the Database
+
+```bash
+import Layout from '../components/Layout'
+import Login from './login'
+import '../styles/globals.css'
+
+function MyApp({ Component, pageProps }) {
+  return <Login />
+  return (
+    <Layout>
+      <Component {...pageProps} />
+    </Layout>
+  )
+}
+
+export default MyApp
+
+```
