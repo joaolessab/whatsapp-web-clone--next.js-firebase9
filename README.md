@@ -26,15 +26,19 @@
 
 ## • Dev mode
 
-1. In the `root` folder, run this command to generate the `.env` file:
+1. Enter the `app` folder:
 
+```bash
+cd app
 ```
-cp .env.example app/.env
+
+2. In the `root` folder, run this command to generate the `.env` file:
+
+```bash
+cp .env.example .env
 ```
 
-2. Enter the `app` folder;
-
-3. Set the sensitive variables of your project inside the generated `.env` file;
+3. Set all the sensitive variables of your project inside the generated `.env` file;
 
 4. Install dependencies:
 
@@ -1628,4 +1632,82 @@ function MyApp({ Component, pageProps }) {
 
 export default MyApp
 
+```
+
+## • Step 19 - Adding Firebase DB and its config files
+
+1. Go to the [Firebase website](https://console.firebase.google.com/u/0/);
+
+2. Create a new project:
+
+![Image](../main/docs/images/firebase-1.png?raw=true)
+
+3. Insert the name of your new project and click on **"Continue"**;
+
+4. Disable Google Analytics for this project and click on **"Create Project"**:
+
+![Image](../main/docs/images/firebase-2.png?raw=true)
+
+5. Wait until Google sets up your project (it can take 1 minute or 2);
+
+6. It will redirect you to the main page of your app after creating it;
+
+7. Click on the **"Web"** icon button to start adding Firebase to your Web App:
+
+![Image](../main/docs/images/firebase-3.png?raw=true)
+
+8. Insert the name of your app and Click on **"Register App"**:
+
+![Image](../main/docs/images/firebase-4.png?raw=true)
+
+9. After the registring process is done, the information in the image below will pop-up for you:
+
+- Copy the code snippet inside the green squared borders and save in a .txt file, we will create enviroment variables to store those info and call inside the app;
+
+- Do not share those informations with no one else (this is why the image has the black tag on the values)
+
+- This sensitive piece of data basically contains all the credentials to access your entire database, where you can read, write and delete future whats app messages for our app;
+
+![Image](../main/docs/images/firebase-5.png?raw=true)
+
+10. Go back to your text editor console and install the Firebase package inside the `app` folder:
+
+```bash
+$ npm i firebase
+```
+
+11. Inside the root folder, create the ENV file `./.env` where you're going to store your sensitive credentials:
+
+> Make sure the .env file is declared inside the .gitignore file of your project before commiting it, so that way, it will never be exposed to any repositories;
+
+> Change the "XXXXX-XXXXX-XXXXX-XXXXX" values to your Firebase sensitive credentials generated in the step 9
+
+```bash
+NEXT_PUBLIC_FIREBASE_API_KEY=XXXXX-XXXXX-XXXXX-XXXXX
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=XXXXX-XXXXX-XXXXX-XXXXX
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=XXXXX-XXXXX-XXXXX-XXXXX
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=XXXXX-XXXXX-XXXXX-XXXXX
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=XXXXX-XXXXX-XXXXX-XXXXX
+NEXT_PUBLIC_FIREBASE_APP_ID=XXXXX-XXXXX-XXXXX-XXXXX
+```
+
+12. Create the file `./firebase.js` (root folder of the app):
+
+```bash
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 ```
