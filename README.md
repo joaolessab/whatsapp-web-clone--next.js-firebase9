@@ -38,7 +38,9 @@ cd app
 cp .env.example .env
 ```
 
-3. Set all the sensitive variables of your project inside the generated `.env` file;
+3. Exchange all the sensitive variables of your project that are inside the new generated `.env` file;
+
+   > Place your Firebase credentials on it
 
 4. Install dependencies:
 
