@@ -1742,3 +1742,67 @@ const provider = new GoogleAuthProvider()
 
 export { db, auth, provider }
 ```
+
+## • Step 20 - Create and Add the Auth Provider to your app
+
+1. Create the file `./Auth.js`:
+
+```bash
+import { useEffect, useContext, createContext, useState } from "react"
+import { auth } from "./firebase"
+
+const AuthContext = createContext()
+export const AuthProvider = ({ children }) => {
+    const [currentUser, setCurrentUser] = useState(null)
+
+    useEffect(() => {
+        return auth.onIdTokenChanged(async (user) => {
+            if (!user) {
+                console.log('no user')
+                return;
+            }
+
+            const token = await user.getIdToken()
+            console.log('user token', token);
+        })
+    }, [])
+
+    return (
+        <AuthContext.Provider
+            value={{
+                currentUser
+            }}
+        >
+            { children }
+        </AuthContext.Provider>
+    )
+}
+
+export const useAuth = () => useContext(AuthContext)
+```
+
+2. Edit the file `./pages/_app.js`:
+
+```bash
+import { AuthProvider } from '../Auth'
+import Layout from '../components/Layout'
+import '../styles/globals.css'
+
+function MyApp({ Component, pageProps }) {
+  return (
+    <AuthProvider>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </AuthProvider>
+  )
+}
+
+export default MyApp
+```
+
+3. To test now, refresh the your browser and check the console of the Development Tools (F12);
+
+- You'll see the message below saying **"no user"** and everything is working as it should be:
+
+![Image](../main/docs/images/firebase-6.png?raw=true)
