@@ -40,7 +40,7 @@ cp .env.example .env
 
 3. Exchange all the sensitive variables of your project that are inside the new generated `.env` file;
 
-   > Place your Firebase credentials on it
+- Place your Firebase credentials on it
 
 4. Install dependencies:
 
