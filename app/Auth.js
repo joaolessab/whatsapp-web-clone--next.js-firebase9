@@ -4,9 +4,17 @@ import {
     createContext,
     useState
 } from "react"
-import { auth } from "./firebase"
+import {
+    auth,
+    db
+} from "./firebase"
 import Loading from "./components/Loading"
 import Login from "./pages/login"
+import {
+    doc,
+    serverTimestamp,
+    setDoc
+} from "firebase/firestore"
 
 const AuthContext = createContext()
 export const AuthProvider = ({ children }) => { 
@@ -22,8 +30,20 @@ export const AuthProvider = ({ children }) => {
                 return;
             }
             
-            const token = await user.getIdToken()
-            console.log('User Token', token)
+            //const token = await user.getIdToken()
+            const userData = {
+                displayName: user.displayName,
+                email: user.email,
+                lastSeen: serverTimestamp(),
+                photoURL: user.photoURL
+            }
+            
+            // This function is using native functions and modules from Firebase SDK
+            // to save the new User into a new Collection
+            // (if there's no User Collection created yet on the Database project)
+            await setDoc(doc(db, 'users', user.uid), userData)
+
+            // SetUser into our App State and throws it to the AuthContext Provider
             setCurrentUser(user)
             setLoading(false)
         })
