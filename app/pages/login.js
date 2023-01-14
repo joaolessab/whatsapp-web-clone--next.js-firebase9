@@ -1,8 +1,14 @@
 import styled from 'styled-components'
 import { Button } from '@mui/material'
 import GoogleIcon from '@mui/icons-material/Google'
+import { auth, provider } from '../firebase'
+import { signInWithPopup } from 'firebase/auth'
 
-const Login = () => { 
+const Login = () => {
+    const loginWithGoogle = () => { 
+        signInWithPopup(auth, provider) // Google Provider being called here
+    }
+
     return (
         <Container>
             <LoginContainer>
@@ -15,6 +21,7 @@ const Login = () => {
                 <Button
                     style={{ color: 'gray' }}
                     startIcon={<GoogleIcon />}
+                    onClick={loginWithGoogle}
                 >
                     Login with Google
                 </Button>
