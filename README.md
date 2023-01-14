@@ -2120,4 +2120,6 @@ export const useAuth = () => useContext(AuthContext)
 
 ![Image](../main/docs/images/firebase-14.png?raw=true)
 
-9. SignOut again and Re-SignIn with 2 or 3 different Google accounts, so we can have some random users on our project Database to test them;
+9. SignOut again and Re-SignIn with 2 or 3 different Google accounts, so we can have some random users on our project Database to test them:
+
+![Image](../main/docs/images/firebase-15.png?raw=true)
