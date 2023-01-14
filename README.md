@@ -2017,3 +2017,107 @@ export default MyApp
 - You can try to click on the **3 dots icon** on the top of the Sidebar >> **"SignOut"** and then your app will return to the Login page;
 
 ![Image](../main/docs/images/firebase-9.png?raw=true)
+
+## • Step 23 - Store User Data to CloudFirestore
+
+1. Go to the Firebase Console of your project created;
+
+2. Click on **"Firestore Database"** and then, click on **"Create Database"**:
+
+![Image](../main/docs/images/firebase-10.png?raw=true)
+
+3. Click on the **Start in test mode** >> **Next**;
+
+![Image](../main/docs/images/firebase-11.png?raw=true)
+
+4. Click on **Enable** on the screen below and wait until your Database is created:
+
+![Image](../main/docs/images/firebase-12.png?raw=true)
+
+5. You are going to see this screen when it finishes loading it all:
+
+![Image](../main/docs/images/firebase-13.png?raw=true)
+
+6. Go back to your app and edit the file `./Auth.js`:
+
+```bash
+import {
+    useEffect,
+    useContext,
+    createContext,
+    useState
+} from "react"
+import {
+    auth,
+    db
+} from "./firebase"
+import Loading from "./components/Loading"
+import Login from "./pages/login"
+import {
+    doc,
+    serverTimestamp,
+    setDoc
+} from "firebase/firestore"
+
+const AuthContext = createContext()
+export const AuthProvider = ({ children }) => {
+    const [currentUser, setCurrentUser] = useState(null)
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        return auth.onIdTokenChanged(async (user) => {
+            if (!user) {
+                console.log('No user is logged')
+                setCurrentUser(null)
+                setLoading(false)
+                return;
+            }
+
+            //const token = await user.getIdToken()
+            const userData = {
+                displayName: user.displayName,
+                email: user.email,
+                lastSeen: serverTimestamp(),
+                photoURL: user.photoURL
+            }
+
+            // This function is using native functions and modules from Firebase SDK
+            // to save the new User into a new Collection
+            // (if there's no User Collection created yet on the Database project)
+            await setDoc(doc(db, 'users', user.uid), userData)
+
+            // SetUser into our App State and throws it to the AuthContext Provider
+            setCurrentUser(user)
+            setLoading(false)
+        })
+    }, [])
+
+    if (loading) {
+        return <Loading type='bubbles' color='rgb(0, 150, 136)'/>
+    }
+    if (!currentUser) {
+        return <Login />
+    }
+    else {
+        return (
+            <AuthContext.Provider value={{ currentUser }}>
+                {children}
+            </AuthContext.Provider>
+        )
+    }
+}
+
+export const useAuth = () => useContext(AuthContext)
+```
+
+7. Now, refresh the main app page and try to **Login in Google** again:
+
+- The Google pop-up should open and you will need to insert your credentials again;
+
+8. After you have Signed In, check and refresh your **Firebase Database**;
+
+- A brand new Collection was created titled as **"users"** and the infromation about your account has been saved on your new Database with sucess:
+
+![Image](../main/docs/images/firebase-14.png?raw=true)
+
+9. SignOut again and Re-SignIn with 2 or 3 different Google accounts, so we can have some random users on our project Database to test them;
