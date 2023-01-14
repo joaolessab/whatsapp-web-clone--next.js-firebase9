@@ -1860,3 +1860,160 @@ function MyApp({ Component, pageProps }) {
 
 export default MyApp
 ```
+
+## • Step 22 - SignIn and SignOut with Google Account
+
+1. Edit the file `./Auth.js`:
+
+```bash
+import {
+    useEffect,
+    useContext,
+    createContext,
+    useState
+} from "react"
+import { auth } from "./firebase"
+import Loading from "./components/Loading"
+import Login from "./pages/login"
+
+const AuthContext = createContext()
+export const AuthProvider = ({ children }) => {
+    const [currentUser, setCurrentUser] = useState(null)
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        return auth.onIdTokenChanged(async (user) => {
+            if (!user) {
+                console.log('No user is logged')
+                setCurrentUser(null)
+                setLoading(false)
+                return;
+            }
+
+            const token = await user.getIdToken()
+            console.log('User Token', token)
+            setCurrentUser(user)
+            setLoading(false)
+        })
+    }, [])
+
+    if (loading) {
+        return <Loading type='bubbles' color='rgb(0, 150, 136)'/>
+    }
+    if (!currentUser) {
+        return <Login />
+    }
+    else {
+        return (
+            <AuthContext.Provider value={{ currentUser }}>
+                {children}
+            </AuthContext.Provider>
+        )
+    }
+}
+
+export const useAuth = () => useContext(AuthContext)
+```
+
+2. Edit the file `./components/CustomMoreVertical.jsx`:
+
+```bash
+import * as React from 'react'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import { IconButton } from '@mui/material'
+import { signOut } from 'firebase/auth'
+import { auth } from '../firebase'
+
+export default function BasicMenu() {
+  const [anchorEl, setAnchorEl] = React.useState(null)
+
+  const open = Boolean(anchorEl)
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  }
+
+  return (
+    <>
+      <IconButton
+        onClick={handleClick}
+      >
+        <MoreVertIcon />
+      </IconButton>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right'
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right'
+        }}
+      >
+        <MenuItem onClick={handleClose}>New Group</MenuItem>
+        <MenuItem onClick={handleClose}>Create a room</MenuItem>
+        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem onClick={handleClose}>Archived</MenuItem>
+        <MenuItem onClick={handleClose}>Starred</MenuItem>
+        <MenuItem onClick={handleClose}>Settings</MenuItem>
+        <MenuItem onClick={() => signOut(auth)}>Logout</MenuItem>
+      </Menu>
+    </>
+  )
+}
+```
+
+3. Edit the file `./pages/_app.js` to make it render the app normally again:
+
+```bash
+import { AuthProvider } from '../Auth'
+import Layout from '../components/Layout'
+import '../styles/globals.css'
+
+function MyApp({ Component, pageProps }) {
+  return (
+    <AuthProvider>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </AuthProvider>
+  )
+}
+
+export default MyApp
+```
+
+4. Go to the Firebase Console of your project created;
+
+5. Click on **"Authentication"** and then, click on **"Get Started"**:
+
+![Image](../main/docs/images/firebase-7.png?raw=true)
+
+6. Click on the **Google** icon;
+
+7. Click on **"Enable"** toogle button and select an email on the **"Project support email"** field, then Click on **"Save"**:
+
+![Image](../main/docs/images/firebase-8.png?raw=true)
+
+8. Go back to your app main page, click on **"Login with Google"**, then, this screen will show up to you:
+
+![Image](../main/docs/images/firebase-8.png?raw=true)
+
+9. Your app is ready to use Google auth!
+
+- You can try to click on the **3 dots icon** on the top of the Sidebar >> **"SignOut"** and then your app will return to the Login page;
+
+![Image](../main/docs/images/firebase-9.png?raw=true)
