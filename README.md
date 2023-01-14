@@ -1806,3 +1806,57 @@ export default MyApp
 - You'll see the message below saying **"no user"** and everything is working as it should be:
 
 ![Image](../main/docs/images/firebase-6.png?raw=true)
+
+## • Step 21 - Create Loading Page
+
+1. Add the package into your project:
+
+```bash
+$ npm i react-loading
+```
+
+2. Create the file `./components/Loading.jsx`:
+
+```bash
+import { Grid } from '@mui/material'
+import ReactLoading from 'react-loading'
+
+const Loading = ({ type, color }) => {
+    return (
+        <Grid
+            container
+            spacing={0}
+            direction='column'
+            alignItems='center'
+            justifyContent='center'
+            style={{ minHeight: '100vh', backgroundColor: 'whitesmoke' }}
+        >
+            <ReactLoading type={type} color={color} height={'20%'} width={'20%'} />
+        </Grid>
+    )
+}
+
+export default Loading
+```
+
+3. Edit the file `./pages/_app.js` (only for now, so you can view the Loading component):
+
+```bash
+import { AuthProvider } from '../Auth'
+import Layout from '../components/Layout'
+import Loading from '../components/Loading'
+import '../styles/globals.css'
+
+function MyApp({ Component, pageProps }) {
+  return(<Loading type='bars' color='rgb(0, 150, 136)' />)
+  return (
+    <AuthProvider>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </AuthProvider>
+  )
+}
+
+export default MyApp
+```
