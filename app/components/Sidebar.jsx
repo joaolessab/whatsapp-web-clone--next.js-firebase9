@@ -9,13 +9,30 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 //import chats from '../data/chats.json'
 import Friend from './Friend'
 import { useEffect, useState } from 'react'
-import { collection, getDocs, query, where } from 'firebase/firestore'
+import { collection, getDocs, query, where, onSnapshot } from 'firebase/firestore'
 import { db } from '../firebase'
 import { useAuth } from '../Auth'
 
 const Sidebar = () => {
     const [friends, setFriends] = useState([])
+    const [chats, setChats] = useState([])
     const { currentUser } = useAuth()
+
+    useEffect(() => { 
+        const chatsRef = collection(db, "chats")
+        const q = query(chatsRef, where("users", "array-contains", currentUser.uid))
+
+        const unsubscribe = onSnapshot(q, (querySnapshot) => { 
+            setChats(querySnapshot.docs.map(doc => (
+                {
+                    ...doc.data(),
+                    id: doc.id
+                }
+            )))
+        })
+
+        return unsubscribe
+    }, [])
     
     useEffect(() => { 
         async function fetchFriends() { 
@@ -79,14 +96,15 @@ const Sidebar = () => {
                     {chat.latestMessage}
                 </Chat>))}
             */}
-            {friends.map(friend => (
+            {/*{friends.map(friend => (
                 <Friend
                     key={friend.id}
                     photoURL={friend.photoURL}
                     displayName={friend.displayName}
                     id={friend.id}
                 />
-            ))}
+            ))}*/}
+            {chats.map(chat => (<div key={chat.id}>{ chat.id }</div>))}
         </Container>
     )
 }
