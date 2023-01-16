@@ -5,10 +5,33 @@ import CustomMoreVertical from './CustomMoreVertical'
 import SearchIcon from '@mui/icons-material/Search'
 import NotificationsOffIcon from '@mui/icons-material/NotificationsOff'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
-import Chat from './Chat'
-import chats from '../data/chats.json'
+//import Chat from './Chat'
+//import chats from '../data/chats.json'
+import Friend from './Friend'
+import { useEffect, useState } from 'react'
+import { collection, getDocs, query, where } from 'firebase/firestore'
+import { db } from '../firebase'
+import { useAuth } from '../Auth'
 
 const Sidebar = () => {
+    const [friends, setFriends] = useState([])
+    const { currentUser } = useAuth()
+    
+    useEffect(() => { 
+        async function fetchFriends() { 
+            const usersRef = collection(db, 'users') // collection name = 'users'
+            const q = query(usersRef, where("email", "!=", currentUser?.email))
+            const querySnapshot = await getDocs(q)
+            console.log('querySnapshot', querySnapshot)
+
+            setFriends(querySnapshot.docs.map(doc => ({
+                ...doc.data(),
+                id: doc.id
+            })))
+        }
+        fetchFriends() // Calling async function to fetch the friends
+    }, [])
+
     return (
         <Container>
             <Header>
@@ -43,7 +66,7 @@ const Sidebar = () => {
                     <SearchInput />
                 </SearchBar>
             </SearchChat>
-            {chats.map(chat => (
+            {/*{chats.map(chat => (
                 <Chat
                     key={chat.messageId}
                     latestMessage={chat.latestMessage}
@@ -53,6 +76,15 @@ const Sidebar = () => {
                 >
                     {chat.latestMessage}
                 </Chat>))}
+            */}
+            {friends.map(friend => (
+                <Friend
+                    key={friend.id}
+                    photoURL={friend.photoURL}
+                    displayName={friend.displayName}
+                    id={friend.id}
+                />
+            ))}
         </Container>
     )
 }
