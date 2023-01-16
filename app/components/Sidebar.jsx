@@ -24,10 +24,12 @@ const Sidebar = () => {
             const querySnapshot = await getDocs(q)
             console.log('querySnapshot', querySnapshot)
 
-            setFriends(querySnapshot.docs.map(doc => ({
-                ...doc.data(),
-                id: doc.id
-            })))
+            setFriends(querySnapshot.docs.map(doc => (
+                {
+                    ...doc.data(),
+                    id: doc.id
+                }
+            )))
         }
         fetchFriends() // Calling async function to fetch the friends
     }, [])

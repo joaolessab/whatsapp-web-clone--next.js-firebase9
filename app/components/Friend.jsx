@@ -1,9 +1,31 @@
 import { Avatar } from '@mui/material'
 import styled from 'styled-components'
+import { addDoc, collection, getDoc, getDocs, query, where } from 'firebase/firestore'
+import { db } from '../firebase'
+import { useAuth } from '../Auth'
 
-const Friend = ({ photoURL, displayName }) => {
+const Friend = ({ photoURL, displayName, id }) => {
+    const { currentUser } = useAuth()
+
+    const createChat = async (id) => {
+        const chatsRef = collection(db, "chats")
+        const q = query(chatsRef, where("users", "array-contains", currentUser.uid)) // filtering only messages / chats related to the Current User (uid)
+        const querySnapshot = await getDocs(q)
+        
+        // This verifies the friend_id clicked is on some related chats from the currentUser
+        const chatAlreadyExist = (friend_id) => !!querySnapshot?.docs.find(chat => chat.data().users.find(user => user === friend_id)?.length > 0)
+        
+        if (!chatAlreadyExist(id)) {
+            addDoc(chatsRef, { users: [currentUser.uid, id] })
+            console.log('Chat created!')
+        }
+        else {
+            console.log('Chat already exists!')
+        }
+    }
+
     return (
-        <Container>
+        <Container onClick={() => createChat(id)}>
             <FrdAvatar src={photoURL} />
             <ChatContainer>
                 <div style={{gridArea: 'name'}}>{ displayName }</div>
