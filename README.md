@@ -411,7 +411,19 @@ export default MyApp
 
 ![Image](../main/docs/images/firebase-13.png?raw=true)
 
-6. Go back to your app and edit the file `./Auth.js`:
+6. Go to the tab **Rules** of your Cloud Firestore and insert this piece of code (like the image below), then click on **"Publish"**;
+
+![Image](../main/docs/images/firebase-16.png?raw=true)
+
+```bash
+match /b/{bucket}/o {
+  match /{allPaths=**} {
+    allow read;
+  }
+}
+```
+
+7. Go back to your app and edit the file `./Auth.js`:
 
 ```bash
 import {
@@ -483,16 +495,16 @@ export const AuthProvider = ({ children }) => {
 export const useAuth = () => useContext(AuthContext)
 ```
 
-7. Now, refresh the main app page and try to **Login in Google** again:
+8. Now, refresh the main app page and try to **Login in Google** again:
 
 - The Google pop-up should open and you will need to insert your credentials again;
 
-8. After you have Signed In, check and refresh your **Firebase Database**;
+9. After you have Signed In, check and refresh your **Firebase Database**;
 
 - A brand new Collection was created titled as **"users"** and the infromation about your account has been saved on your new Database with sucess:
 
 ![Image](../main/docs/images/firebase-14.png?raw=true)
 
-9. SignOut again and Re-SignIn with 2 or 3 different Google accounts, so we can have some random users on our project Database to test them:
+10. SignOut again and Re-SignIn with 2 or 3 different Google accounts, so we can have some random users on our project Database to test them:
 
 ![Image](../main/docs/images/firebase-15.png?raw=true)
