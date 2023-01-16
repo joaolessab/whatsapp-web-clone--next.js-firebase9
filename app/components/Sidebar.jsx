@@ -5,7 +5,7 @@ import CustomMoreVertical from './CustomMoreVertical'
 import SearchIcon from '@mui/icons-material/Search'
 import NotificationsOffIcon from '@mui/icons-material/NotificationsOff'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
-//import Chat from './Chat'
+import Chat from './Chat'
 //import chats from '../data/chats.json'
 import Friend from './Friend'
 import { useEffect, useState } from 'react'
@@ -85,17 +85,15 @@ const Sidebar = () => {
                     <SearchInput />
                 </SearchBar>
             </SearchChat>
-            {/*{chats.map(chat => (
-                <Chat
-                    key={chat.messageId}
-                    latestMessage={chat.latestMessage}
-                    name={chat.name}
-                    timestamp={chat.timestamp}
-                    photoURL={chat.photoURL}
-                >
-                    {chat.latestMessage}
-                </Chat>))}
-            */}
+
+            {chats.map(chat => (
+            <Chat
+                key={chat.id}
+                id={chat.id}
+                latestMessage={chat.latestMessage}
+                users={chat.users}
+            />))}
+            
             {/*{friends.map(friend => (
                 <Friend
                     key={friend.id}
@@ -104,7 +102,6 @@ const Sidebar = () => {
                     id={friend.id}
                 />
             ))}*/}
-            {chats.map(chat => (<div key={chat.id}>{ chat.id }</div>))}
         </Container>
     )
 }
