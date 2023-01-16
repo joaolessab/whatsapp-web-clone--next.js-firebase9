@@ -14,17 +14,17 @@ const Chat = ({ id, users, timestamp='', latestMessage='Default message' }) => {
 
     useEffect(() => { 
         if (users.length > 0) { 
-            getFriendData(users).then(data => { 
+            getFriendData(users).then(data => {
                 setFriend(data)
             })
         }
-    })
+    }, [])
 
     return (
         <Container onClick={enterChat}>
             <FrdAvatar src={friend.photoURL} />
             <ChatContainer>
-                <div style={{gridArea: 'name'}}>{ friend.displayname }</div>
+                <div style={{gridArea: 'name'}}>{ friend.displayName }</div>
                 <div style={{gridArea: 'latest_message'}}>{ latestMessage }</div>
                 {/*<div style={{ gridArea: 'time', fontSize: '14px' }}>
                     {moment(timestamp.seconds * 1000).format('LT')}
