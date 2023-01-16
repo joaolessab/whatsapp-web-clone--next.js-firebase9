@@ -19,7 +19,7 @@
 
 <p>
   •  <a href="#%EF%B8%8F-running-the-project">Running the Project</a><br/>
-  •  <a href="#-creating-this-project-from-scratch-baby-steps">Creating this project from scratch: Baby Steps</a><br/>
+  •  <a href="#-extra-tips">Extra Tips</a><br/>
 </p>
 
 # ⚙️ Running the Project
@@ -54,9 +54,9 @@ $ npm run dev
 
 6. Access the URL: http://localhost:3000
 
-# 🔨 Creating this project from scratch: Baby Steps]
+# 🔨 Extra Tips
 
-## • 1 - Adding Firebase DB and its config files
+## 1 - Adding Firebase DB to the Project - and its Config files
 
 1. Go to the [Firebase website](https://console.firebase.google.com/u/0/);
 
@@ -163,7 +163,7 @@ const provider = new GoogleAuthProvider()
 export { db, auth, provider }
 ```
 
-## • 2 - Create and Add the Auth Provider to your app
+## 2 - Create and Add the Auth Provider to your app
 
 1. Create the file `./Auth.js`:
 
@@ -227,7 +227,7 @@ export default MyApp
 
 ![Image](../main/docs/images/firebase-6.png?raw=true)
 
-## • 3 - SignIn and SignOut with Google Account
+## 3 - SignIn and SignOut with Google Account
 
 1. Edit the file `./Auth.js`:
 
@@ -384,7 +384,7 @@ export default MyApp
 
 ![Image](../main/docs/images/firebase-9.png?raw=true)
 
-## • 4 - Store User Data to CloudFirestore
+## 4 - Store User Data to CloudFirestore
 
 1. Go to the Firebase Console of your project created;
 
