@@ -8,7 +8,7 @@ import getFriendData from '../utils/getFriendData'
 const Chat = ({ id, users, timestamp='', latestMessage='Default message' }) => {
     const router = useRouter()
     const enterChat = () => { 
-        router.push('/chat/1') // random for now only
+        router.push(`/chat/${id}`) // random for now only
     }
     const [friend, setFriend] = useState({})
 

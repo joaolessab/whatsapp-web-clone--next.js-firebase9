@@ -8,7 +8,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import Chat from './Chat'
 //import chats from '../data/chats.json'
 import Friend from './Friend'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { collection, getDocs, query, where, onSnapshot } from 'firebase/firestore'
 import { db } from '../firebase'
 import { useAuth } from '../Auth'
@@ -16,8 +16,10 @@ import { useAuth } from '../Auth'
 const Sidebar = () => {
     const [friends, setFriends] = useState([])
     const [chats, setChats] = useState([])
+    const [searchFriends, setSearchFriends] = useState(false)
+    const inputAreaRef = useRef(null)
     const { currentUser } = useAuth()
-
+    
     useEffect(() => { 
         const chatsRef = collection(db, "chats")
         const q = query(chatsRef, where("users", "array-contains", currentUser.uid))
@@ -50,11 +52,31 @@ const Sidebar = () => {
         }
         fetchFriends() // Calling async function to fetch the friends
     }, [])
+ 
+    useEffect(() => { 
+        const checkIfClickedOutside = e => { 
+            // Validating if the cursor it's not inside the inputArea
+            if (!inputAreaRef.current.contains(e.target)) {
+                setTimeout(() => {
+                    setSearchFriends(false)
+                }, 3000)
+            }
+            else { 
+                setSearchFriends(true)
+            }
+        }
+
+        document.addEventListener("mousedown", checkIfClickedOutside)
+        
+        return () => { 
+            document.removeEventListener("mousedown", checkIfClickedOutside)
+        }
+    }, [])
 
     return (
         <Container>
             <Header>
-                <UserAvatar src="/avatar.png" />
+                <UserAvatar src={currentUser.photoURL} />
                 <IconsGroup>
                     <IconButton>
                         <img src="/story.svg" alt="" />
@@ -82,26 +104,38 @@ const Sidebar = () => {
             <SearchChat>
                 <SearchBar>
                     <SearchIcon />
-                    <SearchInput />
+                    <SearchInput
+                        ref={inputAreaRef}
+                        placeholder="Search or Start a new Chat"
+                    />
                 </SearchBar>
             </SearchChat>
 
-            {chats.map(chat => (
-            <Chat
-                key={chat.id}
-                id={chat.id}
-                latestMessage={chat.latestMessage}
-                users={chat.users}
-            />))}
-            
-            {/*{friends.map(friend => (
-                <Friend
-                    key={friend.id}
-                    photoURL={friend.photoURL}
-                    displayName={friend.displayName}
-                    id={friend.id}
-                />
-            ))}*/}
+            {/* 
+                Initial View: Chats created!
+                Focusing on the Search bar: All contacts (friends) available to search
+            */}
+            {searchFriends ?
+                <>
+                    {friends.map(friend => (
+                        <Friend
+                            key={friend.id}
+                            photoURL={friend.photoURL}
+                            displayName={friend.displayName}
+                            id={friend.id}
+                        />
+                    ))}
+                </> :
+                <>
+                    {chats.map(chat => (
+                    <Chat
+                        key={chat.id}
+                        id={chat.id}
+                        latestMessage={chat.latestMessage}
+                        users={chat.users}
+                    />))}
+                </>
+            }
         </Container>
     )
 }
