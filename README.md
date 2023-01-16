@@ -413,8 +413,6 @@ export default MyApp
 
 6. Go to the tab **Rules** of your Cloud Firestore and insert this piece of code (like the image below), then click on **"Publish"**;
 
-![Image](../main/docs/images/firebase-16.png?raw=true)
-
 ```bash
 match /b/{bucket}/o {
   match /{allPaths=**} {
@@ -422,6 +420,8 @@ match /b/{bucket}/o {
   }
 }
 ```
+
+![Image](../main/docs/images/firebase-16.png?raw=true)
 
 7. Go back to your app and edit the file `./Auth.js`:
 
