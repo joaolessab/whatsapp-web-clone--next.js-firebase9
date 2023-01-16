@@ -17,10 +17,16 @@
 
 # 🔖 Repository Menu
 
-<p>
-  •  <a href="#%EF%B8%8F-running-the-project">Running the Project</a><br/>
-  •  <a href="#-extra-tips">Extra Tips</a><br/>
-</p>
+<ul>
+    <li><a href="#%EF%B8%8F-running-the-project">Running the Project</a></li>
+    <li><a href="#-extra-tips">Extra Tips</a></li>
+    <ol>
+        <li><a href="#1---adding-firebase-db-to-the-project---and-its-config-files">Adding Firebase DB to the Project - and its Config files</a></li>
+        <li><a href="#2---create-and-add-the-auth-provider-to-your-app">Create and Add the Auth Provider to your app</a></li>
+        <li><a href="#3---signin-and-signout-with-google-account">SignIn and SignOut with Google Account</a></li>
+        <li><a href="#4---store-user-data-to-cloudfirestore">Store User Data to CloudFirestore</a></li>
+    </ol>
+</ul>
 
 # ⚙️ Running the Project
 
