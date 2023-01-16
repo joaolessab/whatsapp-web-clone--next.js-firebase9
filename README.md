@@ -1,6 +1,7 @@
 <div align="center">
-  <h1 align='center'>WhatsApp Clone<br/>
-  { Next.js 12 + Firebase 9 + Styled Components}</h1>
+  <h1 align='center'>WhatsApp Clone
+    <br/>{ Next.js 12 + Firebase 9 + Styled Components}
+  </h1>
   
   > 💬 A WhatsApp Clone made using Next.js 12 and Firebase 9
   
@@ -24,7 +25,7 @@
         <li><a href="#1---adding-firebase-db-to-the-project---and-its-config-files">Adding Firebase DB to the Project - and its Config files</a></li>
         <li><a href="#2---create-and-add-the-auth-provider-to-your-app">Create and Add the Auth Provider to your app</a></li>
         <li><a href="#3---signin-and-signout-with-google-account">SignIn and SignOut with Google Account</a></li>
-        <li><a href="#4---store-user-data-to-cloudfirestore">Store User Data to CloudFirestore</a></li>
+        <li><a href="#4---store-user-data-to-cloud-firestore">Store User Data to Cloud Firestore</a></li>
     </ol>
 </ul>
 
@@ -390,7 +391,7 @@ export default MyApp
 
 ![Image](../main/docs/images/firebase-9.png?raw=true)
 
-## 4 - Store User Data to CloudFirestore
+## 4 - Store User Data to Cloud Firestore
 
 1. Go to the Firebase Console of your project created;
 
