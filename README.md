@@ -61,6 +61,22 @@ $ npm run dev
 
 6. Access the URL: http://localhost:3000
 
+7. Log in with your **Google Account**
+
+8. Check the main page of the app, after logged:
+
+![Image](../main/docs/images/demo-1.png?raw=true)
+
+9. Log Out and Log In again with some different accounts, so all these different users can be saved into your own Firestore Database;
+
+10. After Loging In with different Users, **search for them on the Search Bar (they will not show up by default)**, because you have to start a conversation with them before;
+
+![Image](../main/docs/images/demo-2.png?raw=true)
+
+11. After the conversations started:
+
+![Image](../main/docs/images/demo-3.png?raw=true)
+
 # 🔨 Extra Tips
 
 ## 1 - Adding Firebase DB to the Project - and its Config files
