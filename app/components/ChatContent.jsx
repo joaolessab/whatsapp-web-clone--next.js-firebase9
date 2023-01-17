@@ -6,7 +6,7 @@ import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import MicIcon from '@mui/icons-material/Mic'
 import Messages from '../components/Messages'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import getFriendData from '../utils/getFriendData'
 import {
     addDoc,
@@ -28,6 +28,15 @@ const ChatContent = ({ chat, chat_id, messageProps }) => {
     const [messages, setMessages] = useState([])
     const chatParse = JSON.parse(chat)
     const { currentUser } = useAuth()
+    const messagesEndRef = useRef(null)
+
+    const scrollToBottom = () => { 
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }
+
+    useEffect(() => { 
+        scrollToBottom()
+    }, [messages])
 
     useEffect(() => { 
         setMessages(JSON.parse(messageProps))
@@ -118,6 +127,7 @@ const ChatContent = ({ chat, chat_id, messageProps }) => {
                         timestamp={message.timestamp}
                     />
                 )}
+                <div style={{ marginBottom: 100 }} ref={ messagesEndRef } />
             </MessagesContainer>
 
             <InputContainer>
