@@ -9,10 +9,15 @@ import messages from '../data/messages.json'
 import Messages from '../components/Messages'
 import { useEffect, useState } from 'react'
 import getFriendData from '../utils/getFriendData'
+import { addDoc, collection, doc, serverTimestamp, setDoc } from 'firebase/firestore'
+import { db } from '../firebase'
+import { useAuth } from '../Auth'
 
-const ChatContent = ({chat, chat_id}) => { 
+const ChatContent = ({ chat, chat_id }) => {
+    const [input, setInput] = useState('')
     const [friend, setFriend] = useState({})
     const chatParse = JSON.parse(chat)
+    const { currentUser } = useAuth()
 
     useEffect(() => { 
         if (chatParse.users?.length > 0) {
@@ -25,6 +30,35 @@ const ChatContent = ({chat, chat_id}) => {
             console.log('Without any chat to parse')
         }
     }, [chat_id])
+
+    const sendMessage = async (e) => { 
+        e.preventDefault()
+        
+        // Store in DB, the User active time (lastSeen field)
+        const usersRef = doc(db, "users", currentUser.uid)
+        setDoc(usersRef, { lastSeen: serverTimestamp() }, { merge: true })
+        
+        // Send message and store it into the DB
+        // It will go to the "chats" Collection and and a field "messages" -> turned this into the reference
+        const messageRef = collection(db, "chats", chat_id, "messages")
+        // Adding the information into the message reference created above
+        await addDoc(messageRef, {
+            timestamp: serverTimestamp(),
+            message: input,
+            user: currentUser.email,
+            photoURL: currentUser.photoURL
+        })
+
+        // Add the latest message and corresponding time
+        const chatRef = doc(db, "chats", chat_id)
+        setDoc(chatRef, {
+            latestMessage: input,
+            timestamp: serverTimestamp(),
+        }, { merge: true })
+
+        // Cleaning input after storing all the information into the Firestore
+        setInput('')
+    }
 
     return (
         <Container>
@@ -60,7 +94,19 @@ const ChatContent = ({chat, chat_id}) => {
                 <IconButton>
                     <AttachFileIcon />
                 </IconButton>
-                <Input placeholder='Type a message' />
+                <Input
+                    onChange={e => setInput(e.target.value)}
+                    placeholder='Type a message'
+                    value={input}
+                />
+                <button
+                    hidden
+                    disabled={!input}
+                    type="submit"
+                    onClick={sendMessage}
+                >
+                    Send Message
+                </button>
                 <IconButton>
                     <MicIcon />
                 </IconButton>
