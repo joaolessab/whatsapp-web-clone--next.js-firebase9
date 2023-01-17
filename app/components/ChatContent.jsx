@@ -22,7 +22,7 @@ import { db } from '../firebase'
 import { useAuth } from '../Auth'
 import moment from 'moment'
 
-const ChatContent = ({ chat, chat_id }) => {
+const ChatContent = ({ chat, chat_id, messageProps }) => {
     const [input, setInput] = useState('')
     const [friend, setFriend] = useState({})
     const [messages, setMessages] = useState([])
@@ -30,6 +30,10 @@ const ChatContent = ({ chat, chat_id }) => {
     const { currentUser } = useAuth()
 
     useEffect(() => { 
+        setMessages(JSON.parse(messageProps))
+    }, [])
+
+    useEffect(() => {
         // Creating a reference to the messages from this chat_id
         const messagesRef = collection(db, "chats", chat_id, "messages")
         // Ordering all the messages of this chat by timestamp
