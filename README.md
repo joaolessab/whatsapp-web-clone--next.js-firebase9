@@ -47,6 +47,8 @@ cp .env.example .env
 
 3. Exchange all the sensitive variables of your project that are inside the new generated `.env` file, set your Firebase credentials (such as: `API Key`, etc);
 
+- Too see **details on how to add and configure your Firestore Database**, check all the <a href="#-extra-tips">Extra Tips</a> topics;
+
 4. Install dependencies:
 
 ```bash
@@ -397,11 +399,15 @@ export default MyApp
 
 ![Image](../main/docs/images/firebase-8.png?raw=true)
 
-8. Go back to your app main page, click on **"Login with Google"**, then, this screen will show up to you:
+8. Go to the **Authentication** >> **Settings** >> **Authorized Domains** >> and **add the domain that you might want to deploy your server** (Vercel, for example) - (localhost is defined by default)\*\*:
+
+![Image](../main/docs/images/firebase-17.png?raw=true)
+
+9. Go back to your app main page, click on **"Login with Google"**, then, this screen will show up to you:
 
 ![Image](../main/docs/images/firebase-8.png?raw=true)
 
-9. Your app is ready to use Google auth!
+10. Your app is ready to use Google auth!
 
 - You can try to click on the **3 dots icon** on the top of the Sidebar >> **"SignOut"** and then your app will return to the Login page;
 
