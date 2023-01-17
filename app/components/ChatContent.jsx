@@ -5,11 +5,19 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import MicIcon from '@mui/icons-material/Mic'
-import messages from '../data/messages.json'
 import Messages from '../components/Messages'
 import { useEffect, useState } from 'react'
 import getFriendData from '../utils/getFriendData'
-import { addDoc, collection, doc, serverTimestamp, setDoc } from 'firebase/firestore'
+import {
+    addDoc,
+    collection,
+    doc,
+    onSnapshot,
+    orderBy,
+    query,
+    serverTimestamp,
+    setDoc
+} from 'firebase/firestore'
 import { db } from '../firebase'
 import { useAuth } from '../Auth'
 import moment from 'moment'
@@ -17,8 +25,28 @@ import moment from 'moment'
 const ChatContent = ({ chat, chat_id }) => {
     const [input, setInput] = useState('')
     const [friend, setFriend] = useState({})
+    const [messages, setMessages] = useState([])
     const chatParse = JSON.parse(chat)
     const { currentUser } = useAuth()
+
+    useEffect(() => { 
+        // Creating a reference to the messages from this chat_id
+        const messagesRef = collection(db, "chats", chat_id, "messages")
+        // Ordering all the messages of this chat by timestamp
+        const q = query(messagesRef, orderBy("timestamp", "asc"))
+        
+        const unsubscribe = onSnapshot(q, (querySnapshot) => { 
+            setMessages(querySnapshot.docs.map(doc => (
+                {
+                    ...doc.data(),
+                    id: doc.id,
+                    timestamp: doc.data().timestamp?.toDate().getTime()
+                }
+            )))
+        })
+
+        return unsubscribe
+    }, [chat_id])
 
     useEffect(() => { 
         if (chatParse.users?.length > 0) {

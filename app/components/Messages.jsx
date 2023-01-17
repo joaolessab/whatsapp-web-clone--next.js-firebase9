@@ -1,8 +1,10 @@
 import styled from 'styled-components'
 import moment from 'moment'
+import { useAuth } from '../Auth'
 
 const Messages = ({ user, message, timestamp }) => {
-    const loginMail = 'joao@gmail.com'
+    const { currentUser } = useAuth()
+    const loginMail = currentUser.email
     const MessageType = user === loginMail ? MyMessage : FrdMessage
 
     return (
