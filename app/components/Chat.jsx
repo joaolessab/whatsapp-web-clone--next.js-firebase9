@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import getFriendData from '../utils/getFriendData'
 
-const Chat = ({ id, users, timestamp='', latestMessage='Default message' }) => {
+const Chat = ({ id, users, timestamp = '', latestMessage = '' }) => {
     const router = useRouter()
     const enterChat = () => { 
         router.push(`/chat/${id}`) // random for now only
@@ -26,9 +26,9 @@ const Chat = ({ id, users, timestamp='', latestMessage='Default message' }) => {
             <ChatContainer>
                 <div style={{gridArea: 'name'}}>{ friend.displayName }</div>
                 <div style={{gridArea: 'latest_message'}}>{ latestMessage }</div>
-                {/*<div style={{ gridArea: 'time', fontSize: '14px' }}>
-                    {moment(timestamp.seconds * 1000).format('LT')}
-                </div>*/}
+                <div style={{ gridArea: 'time', fontSize: '14px' }}>
+                    { timestamp ? moment(timestamp?.toDate()).format('LT') : ''}
+                </div>
             </ChatContainer>
         </Container>
     )

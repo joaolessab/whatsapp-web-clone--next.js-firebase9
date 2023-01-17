@@ -133,6 +133,7 @@ const Sidebar = () => {
                         id={chat.id}
                         latestMessage={chat.latestMessage}
                         users={chat.users}
+                        timestamp={ chat.timestamp}
                     />))}
                 </>
             }
