@@ -7,14 +7,31 @@ import AttachFileIcon from '@mui/icons-material/AttachFile'
 import MicIcon from '@mui/icons-material/Mic'
 import messages from '../data/messages.json'
 import Messages from '../components/Messages'
+import { useEffect, useState } from 'react'
+import getFriendData from '../utils/getFriendData'
 
-const ChatContent = () => { 
+const ChatContent = ({chat, chat_id}) => { 
+    const [friend, setFriend] = useState({})
+    const chatParse = JSON.parse(chat)
+
+    useEffect(() => { 
+        if (chatParse.users?.length > 0) {
+            console.log('Has chat to parse')
+            getFriendData(chatParse.users).then(data => {
+                setFriend(data)
+            })
+        }
+        else { 
+            console.log('Without any chat to parse')
+        }
+    }, [chat_id])
+
     return (
         <Container>
             <Header>
-                <Avatar />
+                <Avatar src={friend.photoURL} />
                 <HeaderInfo>
-                    <h3>Travis</h3>
+                    <h3>{friend.displayName}</h3>
                     <div>Last Active: 3 hours ago</div>
                 </HeaderInfo>
                 <IconButton>

@@ -1,17 +1,32 @@
 import styled from 'styled-components'
 import ChatContent from '../../components/ChatContent'
+import { db } from '../../firebase'
+import { doc, getDoc } from 'firebase/firestore'
 
-const ChatBox = () => { 
+const ChatBox = ({chat, id}) => {
     return (
         <Container>
             <ChatContainer>
-                <ChatContent />
+                <ChatContent chat={chat} chat_id={id} />
             </ChatContainer>
         </Container>
     )
 }
 
 export default ChatBox
+
+export async function getServerSideProps(context) {
+    // This will search the Chats collection by ID, which comes from the click on the Picture to start the chat message route
+    const docRef = doc(db, "chats", context.query.id)
+    const docSnap = await getDoc(docRef)
+
+    return {
+        props: {
+            chat: JSON.stringify(docSnap.data()),
+            id: context.query.id
+        }
+    }
+}
 
 const Container = styled.div`
     display: flex;
