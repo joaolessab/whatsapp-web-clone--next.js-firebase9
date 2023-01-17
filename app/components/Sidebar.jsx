@@ -12,13 +12,20 @@ import { useEffect, useRef, useState } from 'react'
 import { collection, getDocs, query, where, onSnapshot } from 'firebase/firestore'
 import { db } from '../firebase'
 import { useAuth } from '../Auth'
+import Fuse from 'fuse.js'
 
 const Sidebar = () => {
     const [friends, setFriends] = useState([])
     const [chats, setChats] = useState([])
     const [searchFriends, setSearchFriends] = useState(false)
+    const [input, setInput] = useState('')
     const inputAreaRef = useRef(null)
     const { currentUser } = useAuth()
+    const fuse = new Fuse(friends, {
+        keys: ['email', 'displayName']
+    })
+
+    const friends_result = fuse.search(input)
     
     useEffect(() => { 
         const chatsRef = collection(db, "chats")
@@ -107,6 +114,7 @@ const Sidebar = () => {
                     <SearchInput
                         ref={inputAreaRef}
                         placeholder="Search or Start a new Chat"
+                        onChange={e => setInput(e.target.value)}
                     />
                 </SearchBar>
             </SearchChat>
@@ -117,12 +125,12 @@ const Sidebar = () => {
             */}
             {searchFriends ?
                 <>
-                    {friends.map(friend => (
+                    {friends_result.map(({item}) => (
                         <Friend
-                            key={friend.id}
-                            photoURL={friend.photoURL}
-                            displayName={friend.displayName}
-                            id={friend.id}
+                            key={item.id}
+                            photoURL={item.photoURL}
+                            displayName={item.displayName}
+                            id={item.id}
                         />
                     ))}
                 </> :
