@@ -19,6 +19,7 @@
 # 🔖 Repository Menu
 
 <ul>
+    <li><a href="#-live-demo">Live Demo</a></li>
     <li><a href="#%EF%B8%8F-running-the-project">Running the Project</a></li>
     <li><a href="#-extra-tips">Extra Tips</a></li>
     <ol>
@@ -28,6 +29,10 @@
         <li><a href="#4---store-user-data-to-cloud-firestore">Store User Data to Cloud Firestore</a></li>
     </ol>
 </ul>
+
+# 👁️ Live Demo
+
+- Want to see the [Live Demo? Click here!](https://whatsapp-clone-next-js-firebase9.vercel.app/);
 
 # ⚙️ Running the Project
 
