@@ -32,7 +32,7 @@
 
 # 👁️ Live Demo
 
-- [Live Demo? Click here and enjoy it!](https://whatsapp-clone-next-js-firebase9.vercel.app/)
+- [Click here and enjoy it!](https://whatsapp-clone-next-js-firebase9.vercel.app/)
 
 # ⚙️ Running the Project
 
