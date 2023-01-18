@@ -35,6 +35,16 @@
 - [Click here to watch the **Live Demo!**](https://whatsapp-clone-next-js-firebase9.vercel.app/)
 - If you're facing any type of issue when watching this **Live Demo**, please email me at: **joaovitorlessa@gmail.com**;
 
+## • What to expect
+### Follow the steps as the video below:
+
+1. Login with your Google Account;
+2. Search for a contact in the Search Input bar;
+3. Start a conversation with some random contact;
+4. This new conversation will be now available in the first screen (when there's no information filled in the Search Bar input);
+
+![Image](../main/docs/images/demo.gif?raw=true)
+
 # ⚙️ Running the Project
 
 ## • Dev mode
