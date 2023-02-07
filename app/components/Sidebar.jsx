@@ -62,7 +62,9 @@ const Sidebar = () => {
                     <IconButton>
                         <img src="/story.svg" alt="" />
                     </IconButton>
-                    <IconButton>
+                    <IconButton
+                        onClick={() => setSearchFriends(true)}
+                    >
                         <ChatIcon />
                     </IconButton>
                     <CustomMoreVertical />
@@ -99,6 +101,14 @@ const Sidebar = () => {
             */}
             {searchFriends ?
                 <>
+                    <div>
+                        <button
+                            onClick={() => setSearchFriends(false)}
+                        >
+                            Voltar
+                        </button>
+                    </div>
+                    
                     {friends.map(friend => (
                         <Friend
                             key={friend.id}
