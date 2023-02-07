@@ -12,7 +12,6 @@ import { useEffect, useRef, useState } from 'react'
 import { collection, getDocs, query, where, onSnapshot } from 'firebase/firestore'
 import { db } from '../firebase'
 import { useAuth } from '../Auth'
-import Fuse from 'fuse.js'
 
 const Sidebar = () => {
     const [friends, setFriends] = useState([])
@@ -21,11 +20,6 @@ const Sidebar = () => {
     const [input, setInput] = useState('')
     const inputAreaRef = useRef(null)
     const { currentUser } = useAuth()
-    const fuse = new Fuse(friends, {
-        keys: ['email', 'displayName']
-    })
-
-    const friends_result = fuse.search(input)
     
     useEffect(() => { 
         const chatsRef = collection(db, "chats")
@@ -58,26 +52,6 @@ const Sidebar = () => {
             )))
         }
         fetchFriends() // Calling async function to fetch the friends
-    }, [])
- 
-    useEffect(() => { 
-        const checkIfClickedOutside = e => { 
-            // Validating if the cursor it's not inside the inputArea
-            if (!inputAreaRef.current.contains(e.target)) {
-                setTimeout(() => {
-                    setSearchFriends(false)
-                }, 3000)
-            }
-            else { 
-                setSearchFriends(true)
-            }
-        }
-
-        document.addEventListener("mousedown", checkIfClickedOutside)
-        
-        return () => { 
-            document.removeEventListener("mousedown", checkIfClickedOutside)
-        }
     }, [])
 
     return (
@@ -125,12 +99,12 @@ const Sidebar = () => {
             */}
             {searchFriends ?
                 <>
-                    {friends_result.map(({item}) => (
+                    {friends.map(friend => (
                         <Friend
-                            key={item.id}
-                            photoURL={item.photoURL}
-                            displayName={item.displayName}
-                            id={item.id}
+                            key={friend.id}
+                            photoURL={friend.photoURL}
+                            displayName={friend.displayName}
+                            id={friend.id}
                         />
                     ))}
                 </> :
