@@ -9,7 +9,7 @@ const Login = () => {
     const loginWithGoogle = () => {
         signInWithPopup(auth, provider).then(function (result) {
             if (result.user) {
-                console.log("Signed in as:", user.displayName)
+                console.log("Signed in as:", result.user.displayName)
                 Router.push('/')
             }
             else {                
