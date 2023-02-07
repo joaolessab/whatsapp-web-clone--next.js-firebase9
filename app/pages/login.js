@@ -8,9 +8,13 @@ import Router from 'next/router'
 const Login = () => {
     const loginWithGoogle = () => {
         signInWithPopup(auth, provider).then(function (result) {
-            var user = result.user
-            console.log("Signed in as:", user.displayName)
-            Router.push('/')
+            if (result.user) {
+                console.log("Signed in as:", user.displayName)
+                Router.push('/')
+            }
+            else {                
+                console.log("User not found!")
+            }
         }).catch(function (error) {
             console.error("Error signing in:", error)
         })
