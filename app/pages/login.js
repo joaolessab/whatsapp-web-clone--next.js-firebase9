@@ -3,10 +3,17 @@ import { Button } from '@mui/material'
 import GoogleIcon from '@mui/icons-material/Google'
 import { auth, provider } from '../firebase'
 import { signInWithPopup } from 'firebase/auth'
+import Router from 'next/router'
 
 const Login = () => {
-    const loginWithGoogle = () => { 
-        signInWithPopup(auth, provider) // Google Provider being called here
+    const loginWithGoogle = () => {
+        signInWithPopup(auth, provider).then(function (result) {
+            var user = result.user
+            console.log("Signed in as:", user.displayName)
+            Router.push('/')
+        }).catch(function (error) {
+            console.error("Error signing in:", error)
+        })
     }
 
     return (
