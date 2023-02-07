@@ -95,6 +95,8 @@ const Sidebar = () => {
                 </SearchBar>
             </SearchChat>
 
+            { searchFriends.toString() }
+
             {/* 
                 Initial View: Chats created!
                 Focusing on the Search bar: All contacts (friends) available to search
@@ -107,6 +109,7 @@ const Sidebar = () => {
                         >
                             Voltar
                         </button>
+                        <p>New Chat</p>
                     </div>
                     
                     {friends.map(friend => (
