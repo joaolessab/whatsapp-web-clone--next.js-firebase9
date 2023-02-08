@@ -5,6 +5,7 @@ import CustomMoreVertical from './CustomMoreVertical'
 import SearchIcon from '@mui/icons-material/Search'
 import NotificationsOffIcon from '@mui/icons-material/NotificationsOff'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import Chat from './Chat'
 //import chats from '../data/chats.json'
 import Friend from './Friend'
@@ -95,21 +96,25 @@ const Sidebar = () => {
                 </SearchBar>
             </SearchChat>
 
-            { searchFriends.toString() }
-
             {/* 
                 Initial View: Chats created!
                 Focusing on the Search bar: All contacts (friends) available to search
             */}
             {searchFriends ?
                 <>
-                    <div>
-                        <button
-                            onClick={() => setSearchFriends(false)}
-                        >
-                            Voltar
-                        </button>
-                        <p>New Chat</p>
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ display: 'flex', height:'40px', alignItems: 'center', margin: '5px', marginTop: '10px'}}>
+                            <IconButton
+                                onClick={() => setSearchFriends(false)}
+                                width={{ width: '25px', height: '25px', marginRight: '5px'}}
+                            >
+                                <ArrowBackIcon style={{ width: 25, height: 25 }} />
+                            </IconButton>
+                            <p>New Chat</p>
+                        </div>
+                        <div style={{ borderBottom: '1px solid #ededed'}}>
+                            <p style={{ color: '#009688', textTransform: 'uppercase', marginLeft: '20px' }}>Contacts Available</p>
+                        </div>
                     </div>
                     
                     {friends.map(friend => (
