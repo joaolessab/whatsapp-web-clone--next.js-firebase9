@@ -122,25 +122,29 @@ const Sidebar = () => {
                         </div>
                     </div>
                     
-                    {friends.map(friend => (
-                        <Friend
-                            key={friend.id}
-                            photoURL={friend.photoURL}
-                            displayName={friend.displayName}
-                            id={friend.id}
-                            cleanSearch={cleanSearch}
-                        />
-                    ))}
+                    <FriendsContainer>
+                        {friends.map(friend => (
+                            <Friend
+                                key={friend.id}
+                                photoURL={friend.photoURL}
+                                displayName={friend.displayName}
+                                id={friend.id}
+                                cleanSearch={cleanSearch}
+                            />
+                        ))}
+                    </FriendsContainer>
                 </> :
                 <>
-                    {chats.map(chat => (
-                    <Chat
-                        key={chat.id}
-                        id={chat.id}
-                        latestMessage={chat.latestMessage}
-                        users={chat.users}
-                        timestamp={ chat.timestamp}
-                    />))}
+                    <ChatsContainer>
+                        {chats.map(chat => (
+                        <Chat
+                            key={chat.id}
+                            id={chat.id}
+                            latestMessage={chat.latestMessage}
+                            users={chat.users}
+                            timestamp={ chat.timestamp}
+                        />))}
+                    </ChatsContainer>
                 </>
             }
         </Container>
@@ -149,11 +153,25 @@ const Sidebar = () => {
 
 export default Sidebar
 
+const ChatsContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    height: calc(100% - 14.5rem);
+`
+
+const FriendsContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    height: calc(100% - 20.5rem);
+`
+
+
 const Container = styled.div`
     background-color: #FFFFFF;
     min-width: 320px;
     max-width: 450px;
-    height: 100%;
 `
 
 const Header = styled.div`
