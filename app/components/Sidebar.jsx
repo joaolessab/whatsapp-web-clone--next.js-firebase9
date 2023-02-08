@@ -55,6 +55,11 @@ const Sidebar = () => {
         fetchFriends() // Calling async function to fetch the friends
     }, [])
 
+    const cleanSearch = () => {
+        setInput('')
+        setSearchFriends(false)
+    }
+
     return (
         <Container>
             <Header>
@@ -123,6 +128,7 @@ const Sidebar = () => {
                             photoURL={friend.photoURL}
                             displayName={friend.displayName}
                             id={friend.id}
+                            cleanSearch={cleanSearch}
                         />
                     ))}
                 </> :

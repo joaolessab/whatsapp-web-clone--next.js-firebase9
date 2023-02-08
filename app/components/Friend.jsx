@@ -4,7 +4,7 @@ import { addDoc, collection, getDoc, getDocs, query, where } from 'firebase/fire
 import { db } from '../firebase'
 import { useAuth } from '../Auth'
 
-const Friend = ({ photoURL, displayName, id }) => {
+const Friend = ({ photoURL, displayName, id, cleanSearch }) => {
     const { currentUser } = useAuth()
 
     const createChat = async (id) => {
@@ -22,6 +22,7 @@ const Friend = ({ photoURL, displayName, id }) => {
         else {
             console.log('Chat already exists!')
         }
+        cleanSearch()
     }
 
     return (
