@@ -103,14 +103,14 @@ const Sidebar = () => {
             {searchFriends ?
                 <>
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        <div style={{ display: 'flex', height:'40px', alignItems: 'center', margin: '5px', marginTop: '10px'}}>
+                        <div style={{ display: 'flex', height:'40px', alignItems: 'center', margin: '10px 0px 0px 20px'}}>
                             <IconButton
                                 onClick={() => setSearchFriends(false)}
-                                width={{ width: '25px', height: '25px', marginRight: '5px'}}
+                                width={{ width: '25px', height: '25px'}}
                             >
                                 <ArrowBackIcon style={{ width: 25, height: 25 }} />
                             </IconButton>
-                            <p>New Chat</p>
+                            <p style={{ marginLeft: '25px' }}>New Chat</p>
                         </div>
                         <div style={{ borderBottom: '1px solid #ededed'}}>
                             <p style={{ color: '#009688', textTransform: 'uppercase', marginLeft: '20px' }}>Contacts Available</p>
