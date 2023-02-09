@@ -3,6 +3,7 @@ import { Avatar, IconButton } from '@mui/material'
 import ChatIcon from '@mui/icons-material/Chat'
 import CustomMoreVertical from './CustomMoreVertical'
 import SearchIcon from '@mui/icons-material/Search'
+import CancelIcon from '@mui/icons-material/Cancel'
 import NotificationsOffIcon from '@mui/icons-material/NotificationsOff'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
@@ -136,6 +137,10 @@ const Sidebar = () => {
                         onChange={e => executeSearch(e)}
                         onSelect={executeSearch}
                     />
+                    <CancelIcon
+                        onClick={cleanSearch}
+                        style={{ widht: 20, height: 20, cursor: 'pointer', color: 'gray' }}
+                    />
                 </SearchBar>
             </SearchChat>
 
@@ -246,6 +251,8 @@ const SearchBar = styled.div`
     border-radius: 10px;
     border-bottom: 1px solid #ededed;
     background: white;
+    align-items: center;
+    justify-items: center;
 `
 
 const SearchInput = styled.input`
