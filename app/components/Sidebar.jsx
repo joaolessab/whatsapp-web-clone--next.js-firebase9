@@ -3,29 +3,27 @@ import { Avatar, IconButton } from '@mui/material'
 import ChatIcon from '@mui/icons-material/Chat'
 import CustomMoreVertical from './CustomMoreVertical'
 import SearchIcon from '@mui/icons-material/Search'
+import CancelIcon from '@mui/icons-material/Cancel'
 import NotificationsOffIcon from '@mui/icons-material/NotificationsOff'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import Chat from './Chat'
 //import chats from '../data/chats.json'
 import Friend from './Friend'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { collection, getDocs, query, where, onSnapshot } from 'firebase/firestore'
 import { db } from '../firebase'
 import { useAuth } from '../Auth'
-import Fuse from 'fuse.js'
 
 const Sidebar = () => {
+    const { currentUser } = useAuth()
+
     const [friends, setFriends] = useState([])
     const [chats, setChats] = useState([])
-    const [searchFriends, setSearchFriends] = useState(false)
-    const [input, setInput] = useState('')
-    const inputAreaRef = useRef(null)
-    const { currentUser } = useAuth()
-    const fuse = new Fuse(friends, {
-        keys: ['email', 'displayName']
-    })
 
-    const friends_result = fuse.search(input)
+    const [searchFriends, setSearchFriends] = useState(false)
+    const [searchTerm, setSearchTerm] = useState("")
+    const [filteredFriends, setFilteredFriends] = useState([])
     
     useEffect(() => { 
         const chatsRef = collection(db, "chats")
@@ -48,37 +46,58 @@ const Sidebar = () => {
             const usersRef = collection(db, 'users') // collection name = 'users'
             const q = query(usersRef, where("email", "!=", currentUser?.email))
             const querySnapshot = await getDocs(q)
-            console.log('querySnapshot', querySnapshot)
 
             setFriends(querySnapshot.docs.map(doc => (
-                {
-                    ...doc.data(),
-                    id: doc.id
-                }
+                { ...doc.data(), id: doc.id }
             )))
         }
         fetchFriends() // Calling async function to fetch the friends
     }, [])
- 
-    useEffect(() => { 
-        const checkIfClickedOutside = e => { 
-            // Validating if the cursor it's not inside the inputArea
-            if (!inputAreaRef.current.contains(e.target)) {
-                setTimeout(() => {
-                    setSearchFriends(false)
-                }, 3000)
-            }
-            else { 
-                setSearchFriends(true)
-            }
-        }
 
-        document.addEventListener("mousedown", checkIfClickedOutside)
-        
-        return () => { 
-            document.removeEventListener("mousedown", checkIfClickedOutside)
-        }
-    }, [])
+    useEffect(() => {
+        setFilteredFriends([...friends])
+     }, [friends])
+
+    const cleanSearch = () => {
+        setSearchTerm('')
+        setSearchFriends(false)
+    }
+
+    const executeSearch = (e) => {
+        setSearchTerm(e.target.value)
+        setSearchFriends(true)
+    }
+
+    // -> Debounce use to control the number of interaction that the user can do via Search Bar
+    const useDebounce = (value, delay) => {
+        const [debouncedValue, setDebouncedValue] = useState(value)
+
+        useEffect(() => {
+            const handler = setTimeout(() => {
+                setDebouncedValue(value)
+            }, delay)
+
+            return () => {
+                clearTimeout(handler)
+            }
+        }, [value, delay])
+
+        return debouncedValue
+    }
+
+    const debouncedSearchTerm = useDebounce(searchTerm, 100)
+
+    useEffect(() => {
+        const friendsCopy = [...friends] // -> Making a Copy of the Friends original list
+
+        const searchMatchResponse = friendsCopy.filter((item) => {
+                return searchTerm === "" ||
+                item.displayName.toLowerCase().includes(searchTerm.toLowerCase()) || // -> Filter by Title value
+                item.email.toLowerCase().includes(searchTerm.toLowerCase()) // -> Filter by Login value
+            }
+        )
+        setFilteredFriends(searchMatchResponse)
+    }, [debouncedSearchTerm])
 
     return (
         <Container>
@@ -88,7 +107,9 @@ const Sidebar = () => {
                     <IconButton>
                         <img src="/story.svg" alt="" />
                     </IconButton>
-                    <IconButton>
+                    <IconButton
+                        onClick={() => setSearchFriends(true)}
+                    >
                         <ChatIcon />
                     </IconButton>
                     <CustomMoreVertical />
@@ -112,9 +133,13 @@ const Sidebar = () => {
                 <SearchBar>
                     <SearchIcon />
                     <SearchInput
-                        ref={inputAreaRef}
                         placeholder="Search or Start a new Chat"
-                        onChange={e => setInput(e.target.value)}
+                        onChange={e => executeSearch(e)}
+                        onSelect={executeSearch}
+                    />
+                    <CancelIcon
+                        onClick={cleanSearch}
+                        style={{ widht: 20, height: 20, cursor: 'pointer', color: 'gray' }}
                     />
                 </SearchBar>
             </SearchChat>
@@ -125,24 +150,44 @@ const Sidebar = () => {
             */}
             {searchFriends ?
                 <>
-                    {friends_result.map(({item}) => (
-                        <Friend
-                            key={item.id}
-                            photoURL={item.photoURL}
-                            displayName={item.displayName}
-                            id={item.id}
-                        />
-                    ))}
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ display: 'flex', height:'40px', alignItems: 'center', margin: '10px 0px 0px 20px'}}>
+                            <IconButton
+                                onClick={() => setSearchFriends(false)}
+                                width={{ width: '25px', height: '25px'}}
+                            >
+                                <ArrowBackIcon style={{ width: 25, height: 25 }} />
+                            </IconButton>
+                            <p style={{ marginLeft: '25px' }}>New Chat</p>
+                        </div>
+                        <div style={{ borderBottom: '1px solid #ededed'}}>
+                            <p style={{ color: '#009688', textTransform: 'uppercase', marginLeft: '20px' }}>Contacts Available</p>
+                        </div>
+                    </div>
+                    
+                    <FriendsContainer>
+                        {filteredFriends.map(friend => (
+                            <Friend
+                                key={friend.id}
+                                photoURL={friend.photoURL}
+                                displayName={friend.displayName}
+                                friendId={friend.id}
+                                cleanSearch={cleanSearch}
+                            />
+                        ))}
+                    </FriendsContainer>
                 </> :
                 <>
-                    {chats.map(chat => (
-                    <Chat
-                        key={chat.id}
-                        id={chat.id}
-                        latestMessage={chat.latestMessage}
-                        users={chat.users}
-                        timestamp={ chat.timestamp}
-                    />))}
+                    <ChatsContainer>
+                        {chats.map(chat => (
+                        <Chat
+                            key={chat.id}
+                            id={chat.id}
+                            latestMessage={chat.latestMessage}
+                            users={chat.users}
+                            timestamp={ chat.timestamp}
+                        />))}
+                    </ChatsContainer>
                 </>
             }
         </Container>
@@ -151,11 +196,25 @@ const Sidebar = () => {
 
 export default Sidebar
 
+const ChatsContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    height: calc(100% - 14.5rem);
+`
+
+const FriendsContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    height: calc(100% - 20.5rem);
+`
+
+
 const Container = styled.div`
     background-color: #FFFFFF;
     min-width: 320px;
     max-width: 450px;
-    height: 100%;
 `
 
 const Header = styled.div`
@@ -192,6 +251,8 @@ const SearchBar = styled.div`
     border-radius: 10px;
     border-bottom: 1px solid #ededed;
     background: white;
+    align-items: center;
+    justify-items: center;
 `
 
 const SearchInput = styled.input`
