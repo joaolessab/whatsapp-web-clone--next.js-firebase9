@@ -128,7 +128,7 @@ const Sidebar = () => {
                                 key={friend.id}
                                 photoURL={friend.photoURL}
                                 displayName={friend.displayName}
-                                id={friend.id}
+                                friendId={friend.id}
                                 cleanSearch={cleanSearch}
                             />
                         ))}
