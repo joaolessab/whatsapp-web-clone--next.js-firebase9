@@ -10,7 +10,7 @@ const Login = () => {
         signInWithPopup(auth, provider).then(function (result) {
             if (result.user) {
                 console.log("Signed in as:", result.user.displayName)
-                Router.push('/')
+                Router.reload(window.location.pathname)
             }
             else {                
                 console.log("User not found!")
