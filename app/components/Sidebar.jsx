@@ -9,18 +9,20 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import Chat from './Chat'
 //import chats from '../data/chats.json'
 import Friend from './Friend'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { collection, getDocs, query, where, onSnapshot } from 'firebase/firestore'
 import { db } from '../firebase'
 import { useAuth } from '../Auth'
 
 const Sidebar = () => {
+    const { currentUser } = useAuth()
+
     const [friends, setFriends] = useState([])
     const [chats, setChats] = useState([])
+
     const [searchFriends, setSearchFriends] = useState(false)
-    const [input, setInput] = useState('')
-    const inputAreaRef = useRef(null)
-    const { currentUser } = useAuth()
+    const [searchTerm, setSearchTerm] = useState("")
+    const [filteredFriends, setFilteredFriends] = useState([])
     
     useEffect(() => { 
         const chatsRef = collection(db, "chats")
@@ -43,22 +45,58 @@ const Sidebar = () => {
             const usersRef = collection(db, 'users') // collection name = 'users'
             const q = query(usersRef, where("email", "!=", currentUser?.email))
             const querySnapshot = await getDocs(q)
-            console.log('querySnapshot', querySnapshot)
 
             setFriends(querySnapshot.docs.map(doc => (
-                {
-                    ...doc.data(),
-                    id: doc.id
-                }
+                { ...doc.data(), id: doc.id }
             )))
         }
         fetchFriends() // Calling async function to fetch the friends
     }, [])
 
+    useEffect(() => {
+        setFilteredFriends([...friends])
+     }, [friends])
+
     const cleanSearch = () => {
-        setInput('')
+        setSearchTerm('')
         setSearchFriends(false)
     }
+
+    const executeSearch = (e) => {
+        setSearchTerm(e.target.value)
+        setSearchFriends(true)
+    }
+
+    // -> Debounce use to control the number of interaction that the user can do via Search Bar
+    const useDebounce = (value, delay) => {
+        const [debouncedValue, setDebouncedValue] = useState(value)
+
+        useEffect(() => {
+            const handler = setTimeout(() => {
+                setDebouncedValue(value)
+            }, delay)
+
+            return () => {
+                clearTimeout(handler)
+            }
+        }, [value, delay])
+
+        return debouncedValue
+    }
+
+    const debouncedSearchTerm = useDebounce(searchTerm, 100)
+
+    useEffect(() => {
+        const friendsCopy = [...friends] // -> Making a Copy of the Friends original list
+
+        const searchMatchResponse = friendsCopy.filter((item) => {
+                return searchTerm === "" ||
+                item.displayName.toLowerCase().includes(searchTerm.toLowerCase()) || // -> Filter by Title value
+                item.email.toLowerCase().includes(searchTerm.toLowerCase()) // -> Filter by Login value
+            }
+        )
+        setFilteredFriends(searchMatchResponse)
+    }, [debouncedSearchTerm])
 
     return (
         <Container>
@@ -94,9 +132,9 @@ const Sidebar = () => {
                 <SearchBar>
                     <SearchIcon />
                     <SearchInput
-                        ref={inputAreaRef}
                         placeholder="Search or Start a new Chat"
-                        onChange={e => setInput(e.target.value)}
+                        onChange={e => executeSearch(e)}
+                        onSelect={executeSearch}
                     />
                 </SearchBar>
             </SearchChat>
@@ -123,7 +161,7 @@ const Sidebar = () => {
                     </div>
                     
                     <FriendsContainer>
-                        {friends.map(friend => (
+                        {filteredFriends.map(friend => (
                             <Friend
                                 key={friend.id}
                                 photoURL={friend.photoURL}
