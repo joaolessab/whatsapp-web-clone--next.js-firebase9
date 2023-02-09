@@ -37,7 +37,7 @@ const Friend = ({ photoURL, displayName, friendId, cleanSearch }) => {
         <Container onClick={() => createChat(friendId)}>
             <FrdAvatar src={photoURL} />
             <ChatContainer>
-                <div style={{gridArea: 'name'}}>{ displayName }</div>
+                <div style={{gridArea: 'name', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontWeight: '600'}}>{ displayName }</div>
             </ChatContainer>
         </Container>
     )
@@ -65,7 +65,7 @@ const FrdAvatar = styled(Avatar)`
 const ChatContainer = styled.div`
     display: grid;
     padding: 10px;
-    width: 100%;
+    width: 400px;
     grid-template-columns: repeat(3, 1fr);
     border-bottom: 1px solid #ededed;
     gap: 10px;

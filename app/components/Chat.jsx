@@ -24,8 +24,8 @@ const Chat = ({ id, users, timestamp = '', latestMessage = '' }) => {
         <Container onClick={enterChat}>
             <FrdAvatar src={friend.photoURL} />
             <ChatContainer>
-                <div style={{gridArea: 'name'}}>{ friend.displayName }</div>
-                <div style={{gridArea: 'latest_message'}}>{ latestMessage }</div>
+                <div style={{gridArea: 'name', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontWeight: '600'}}>{ friend.displayName }</div>
+                <div style={{gridArea: 'latest_message', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>{ latestMessage }</div>
                 <div style={{ gridArea: 'time', fontSize: '14px' }}>
                     { timestamp ? moment(timestamp?.toDate()).format('LT') : ''}
                 </div>
@@ -56,7 +56,7 @@ const FrdAvatar = styled(Avatar)`
 const ChatContainer = styled.div`
     display: grid;
     padding: 10px;
-    width: 100%;
+    width: 400px;
     grid-template-columns: repeat(3, 1fr);
     border-bottom: 1px solid #ededed;
     gap: 10px;
