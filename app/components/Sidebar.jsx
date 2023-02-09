@@ -136,6 +136,7 @@ const Sidebar = () => {
                         placeholder="Search or Start a new Chat"
                         onChange={e => executeSearch(e)}
                         onSelect={executeSearch}
+                        value={searchTerm}
                     />
                     <CancelIcon
                         onClick={cleanSearch}
